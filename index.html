@@ -48,6 +48,64 @@
       <a class="card feature-card compact-card" href="rainy-day.html"><span>下雨怎麼玩</span><strong>改走室內</strong></a>
     </section>
 
+    <section id="trip-helper" class="helper card" aria-labelledby="trip-helper-title">
+      <div class="helper-heading">
+        <p class="eyebrow">互動判斷器</p>
+        <h2 id="trip-helper-title">不開車怎麼排？</h2>
+        <p>選住宿區、旅遊狀態、想去的地方，先幫你判斷順不順路。</p>
+      </div>
+
+      <div class="helper-grid">
+        <div class="helper-group">
+          <h3>住宿基地</h3>
+          <div class="choice-grid" data-helper-group="base">
+            <button type="button" data-helper-base="美麗島／高雄車站">美麗島／高雄車站</button>
+            <button type="button" data-helper-base="鹽埕／駁二">鹽埕／駁二</button>
+            <button type="button" data-helper-base="三多／夢時代">三多／夢時代</button>
+            <button type="button" data-helper-base="左營／巨蛋">左營／巨蛋</button>
+          </div>
+        </div>
+
+        <div class="helper-group">
+          <h3>旅遊狀態</h3>
+          <div class="choice-grid" data-helper-group="traveler">
+            <button type="button" data-helper-traveler="第一次來高雄">第一次來高雄</button>
+            <button type="button" data-helper-traveler="高雄本地人">高雄本地人</button>
+            <button type="button" data-helper-traveler="帶小孩">帶小孩</button>
+            <button type="button" data-helper-traveler="帶長輩">帶長輩</button>
+            <button type="button" data-helper-traveler="情侶散步">情侶散步</button>
+            <button type="button" data-helper-traveler="不想曬太陽">不想曬太陽</button>
+          </div>
+        </div>
+
+        <div class="helper-group helper-group-wide">
+          <h3>想去的景點</h3>
+          <div class="choice-grid spot-choice-grid" data-helper-group="spots">
+            <button type="button" data-helper-spot="駁二">駁二</button>
+            <button type="button" data-helper-spot="旗津">旗津</button>
+            <button type="button" data-helper-spot="西子灣">西子灣</button>
+            <button type="button" data-helper-spot="瑞豐夜市">瑞豐夜市</button>
+            <button type="button" data-helper-spot="高雄巨蛋">高雄巨蛋</button>
+            <button type="button" data-helper-spot="衛武營">衛武營</button>
+            <button type="button" data-helper-spot="夢時代">夢時代</button>
+            <button type="button" data-helper-spot="蓮池潭">蓮池潭</button>
+          </div>
+        </div>
+
+        <div class="helper-group">
+          <h3>天氣狀態</h3>
+          <div class="choice-grid" data-helper-group="weather">
+            <button type="button" data-helper-weather="普通">普通</button>
+            <button type="button" data-helper-weather="很熱">很熱</button>
+            <button type="button" data-helper-weather="會下雨">會下雨</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="helper-button" class="cta helper-cta" type="button">幫我判斷怎麼玩</button>
+      <div id="helper-result" class="helper-result" aria-live="polite" hidden></div>
+    </section>
+
     <section id="planner" class="planner card">
       <h2>先選你從哪裡出發</h2>
       <div class="button-grid" data-group="origin">
