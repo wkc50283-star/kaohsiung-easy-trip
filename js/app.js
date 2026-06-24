@@ -59,12 +59,12 @@ function weatherText(code) {
 
 function weatherAdvice(maxTemp, rainProb, code) {
   if (rainProb >= 60 || [61, 63, 65, 80, 81, 82, 95, 96, 99].includes(code)) {
-    return '建議改走室內：夢時代、三多商圈、漢神巨蛋、科工館、駁二室內展館。';
+    return '建議改走室內或雨天備案：夢時代、三多商圈、漢神巨蛋、科工館、駁二室內展館。';
   }
   if (maxTemp >= 32) {
-    return '中午偏熱，港邊、旗津、西子灣、蓮池潭請排早上或傍晚。';
+    return '中午避免長時間戶外，港邊、旗津、西子灣、蓮池潭請排早上或傍晚。';
   }
-  return '適合排戶外慢遊，但仍建議預留室內休息點。';
+  return '可排戶外慢遊，但仍保留室內休息點。';
 }
 
 async function loadKaohsiungWeather() {
@@ -87,8 +87,9 @@ async function loadKaohsiungWeather() {
       return `<article class="weather-day"><strong>${label}</strong><span>${weatherText(code)}</span><span>${min}°C - ${max}°C</span><span>降雨 ${rain}%</span><small>${weatherAdvice(max, rain, code)}</small></article>`;
     }).join('');
   } catch (error) {
-    weatherStatus.textContent = '天氣預報暫時讀取失敗，請稍後再試。';
-    weatherCurrent.innerHTML = '<strong>先用保守規則：</strong><span>4～10 月中午避開戶外；下雨就改夢時代、三多商圈、漢神巨蛋、科工館。</span>';
+    weatherStatus.textContent = '天氣預報暫時讀取失敗，先用保守規則安排行程。';
+    weatherCurrent.innerHTML = '<strong>保守規則：</strong><span>4～10 月中午避免長時間戶外；下雨就改走室內或雨天備案，例如夢時代、三多商圈、漢神巨蛋、科工館。</span>';
+    weatherDaily.innerHTML = '';
   }
 }
 
