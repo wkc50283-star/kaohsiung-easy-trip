@@ -84,7 +84,7 @@ async function loadKaohsiungWeather() {
       const rain = data.daily.precipitation_probability_max[index] ?? 0;
       const code = data.daily.weather_code[index];
       const label = index === 0 ? '今天' : index === 1 ? '明天' : date.slice(5).replace('-', '/');
-      return `<article class="weather-day"><strong>${label}</strong><span>${weatherText(code)}</span><span>${min}°C - ${max}°C</span><span>降雨 ${rain}%</span><small>${weatherAdvice(max, rain, code)}</small></article>`;
+      return `<article class="weather-day"><strong>${label}</strong><span>${weatherText(code)}</span><span>最高 ${max}°C</span><span>最低 ${min}°C</span><span>降雨機率 ${rain}%</span><small>${weatherAdvice(max, rain, code)}</small></article>`;
     }).join('');
   } catch (error) {
     weatherStatus.textContent = '天氣預報暫時讀取失敗，先用保守規則安排行程。';
