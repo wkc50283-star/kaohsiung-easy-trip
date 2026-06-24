@@ -1,0 +1,11 @@
+[
+  {"name":"台北","suggestedArrival":"高鐵到左營後轉捷運"},
+  {"name":"桃園","suggestedArrival":"高鐵到左營後轉捷運"},
+  {"name":"新竹","suggestedArrival":"高鐵到左營後轉捷運"},
+  {"name":"台中","suggestedArrival":"高鐵到左營或台鐵到高雄"},
+  {"name":"嘉義","suggestedArrival":"高鐵到左營或台鐵到高雄"},
+  {"name":"台南","suggestedArrival":"台鐵或高鐵銜接捷運"},
+  {"name":"屏東","suggestedArrival":"台鐵到高雄或新左營"},
+  {"name":"台東","suggestedArrival":"台鐵到高雄"},
+  {"name":"花蓮","suggestedArrival":"台鐵到高雄"}
+]
