@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "status": "placeholder",
+  "updatedAt": "",
+  "sources": [
+    {
+      "id": "tdx-transport",
+      "name": "TDX 交通資料",
+      "status": "planned",
+      "intendedUse": ["捷運", "公車", "YouBike", "台鐵", "高鐵", "台灣好行"],
+      "note": "本檔只記錄未來交通資料規劃，本次不接 API。"
+    }
+  ],
+  "items": []
+}
