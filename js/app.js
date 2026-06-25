@@ -33,6 +33,17 @@ const plannerResultLink = document.getElementById('planner-result-link');
 
 function getTripRecommendation(origin, days) {
   const dayCount = Number(days);
+  const tripHref = {
+    2: 'trips/kaohsiung-2-days.html',
+    3: 'trips/kaohsiung-3-days.html',
+    4: 'trips/kaohsiung-4-days.html',
+    5: 'trips/kaohsiung-5-days.html'
+  };
+  const slowTripCta = {
+    3: '看 3 日安全牌',
+    4: '看 4 日慢玩版',
+    5: '看 5 日慢玩版'
+  };
   const fallback = {
     name: '直接 3 日安全牌',
     description: '第一次來高雄、懶得研究，先用 3 日安全牌。路線保守，但比較不會熱死、繞路或拖行李亂跑。',
@@ -44,43 +55,105 @@ function getTripRecommendation(origin, days) {
   if (!origin || !days) return fallback;
 
   if (['台北', '桃園', '新竹'].includes(origin)) {
+    if (dayCount === 1) {
+      return {
+        name: '高鐵一日快閃版',
+        description: `${origin}當天來回高雄可以，但不要貪心。建議只選一條線：左營／巨蛋／瑞豐夜市，或鹽埕／駁二半日。`,
+        reminder: '一日來回最怕拖行李、轉乘太多、夏天中午走港邊。第一次來高雄不建議只排 1 天。',
+        href: 'local.html',
+        cta: '看輕量玩法'
+      };
+    }
+    if (dayCount === 2) {
+      return {
+        name: '高鐵 2 日壓縮版',
+        description: `${origin}出發玩 2 天可以，但要把行程壓小。第一天進市區或港邊，第二天靠左營或高雄車站回程。`,
+        reminder: '不要把旗津、西子灣、駁二、夜市全部塞滿，2 天重點是少轉乘、少拖行李。',
+        href: 'trips/kaohsiung-2-days.html',
+        cta: '看 2 日壓縮版'
+      };
+    }
+    if (dayCount >= 4) {
+      return {
+        name: '高鐵慢玩版',
+        description: `${origin}出發玩 ${days} 天，時間比較充裕，可以放慢步調，把港邊、旗津、左營與雨天備案分開排。`,
+        reminder: '天數多不要代表每天塞滿，建議保留半天彈性時間，遇到熱天或雨天才不會爆掉。',
+        href: tripHref[dayCount] || 'trips/kaohsiung-3-days.html',
+        cta: slowTripCta[dayCount] || '看 3 日安全牌'
+      };
+    }
     return {
       name: '高鐵 3 日安全牌',
       description: `你從${origin}出發，適合搭高鐵到左營，第一天不要排太滿，第三天靠左營或高雄車站回程。`,
-      reminder: dayCount >= 4 ? '天數較充裕，可以放慢步調，增加雨天備案與住宿區判斷。' : '避開拖行李跑旗津、熱季中午走港邊、最後一天排太遠。',
+      reminder: '避開拖行李跑旗津、熱季中午走港邊、最後一天排太遠。',
       href: 'trips/kaohsiung-3-days.html',
       cta: '看 3 日安全牌'
     };
   }
 
   if (['台中', '嘉義', '台南'].includes(origin)) {
-    const isTwoDays = dayCount === 2;
+    if (dayCount === 1) {
+      return {
+        name: '短程一日輕旅行',
+        description: `${origin}出發一日高雄可行，但不要排太滿。建議只選一區：鹽埕／駁二、巨蛋／瑞豐夜市，或三多商圈雨天備案。`,
+        reminder: '一日行程重點是少移動，不要把港邊、旗津、夜市全部塞進同一天。',
+        href: 'local.html',
+        cta: '看輕量玩法'
+      };
+    }
+    if (dayCount === 2) {
+      return {
+        name: '2 日短程版',
+        description: `${origin}出發玩 2 天，適合週末或短假期。第一天市區或港邊，第二天回程前排左營或高雄車站附近。`,
+        reminder: '2 天要避開跨太多區，先決定住宿區，再排順路吃喝。',
+        href: 'trips/kaohsiung-2-days.html',
+        cta: '看 2 日短程版'
+      };
+    }
     return {
-      name: '2～3 日短程版',
-      description: `你從${origin}出發，交通時間較短，適合週末或短假期。第一天可以直接進市區，第二天排港邊或夜市，最後一天不要排太遠。`,
-      reminder: dayCount === 1 ? '1 天不要排太滿，以半日或一日順路玩法為主。' : dayCount >= 4 ? '4～5 天可以放慢，加入雨天備案與住宿區判斷。' : '短程旅遊重點是少繞路，行李先放好再開始走。',
-      href: isTwoDays ? 'trips/kaohsiung-2-days.html' : 'trips/kaohsiung-3-days.html',
-      cta: isTwoDays ? '看 2 日短程版' : '看 3 日安全牌'
+      name: '3 日以上短程慢玩版',
+      description: `${origin}出發玩 ${days} 天，交通壓力較小，可以把港邊、旗津、夜市與住宿區分開排。`,
+      reminder: '天數越多越要放慢，不要每天換太多區。',
+      href: tripHref[dayCount] || 'trips/kaohsiung-3-days.html',
+      cta: slowTripCta[dayCount] || '看 3 日安全牌'
     };
   }
 
   if (origin === '屏東') {
+    if (dayCount === 1) {
+      return {
+        name: '屏東一日輕旅行',
+        description: '屏東出發不一定要住宿，適合一日或半日高雄玩法。重點是選一區玩，不要照外地旅客長天數路線排。',
+        reminder: '一日玩法優先考慮天氣、轉乘少、回程方便。',
+        href: 'local.html',
+        cta: '看本地玩法'
+      };
+    }
     return {
-      name: '1～2 日輕旅行版',
-      description: '屏東出發不一定要住宿，適合半日、一日或輕住宿。不要把行程排成外地長天數玩法，重點是天氣、時間與地點順路。',
-      reminder: dayCount >= 3 ? '天數較多時也不要硬塞觀光客路線，優先依天氣與體力安排。' : '1～2 天以少轉乘、少曝曬、少繞路為主。',
-      href: 'local.html',
-      cta: '看本地玩法'
+      name: '屏東 2 日以上輕住宿版',
+      description: `屏東出發玩 ${days} 天，可以輕住宿，但不要硬塞觀光客路線。適合把港邊、夜市與室內備案分開。`,
+      reminder: '屏東出發的優勢是彈性，不必把每一天排滿。',
+      href: tripHref[dayCount] || 'local.html',
+      cta: slowTripCta[dayCount] || (dayCount === 2 ? '看 2 日短程版' : '看本地玩法')
     };
   }
 
   if (['台東', '花蓮'].includes(origin)) {
+    if (dayCount <= 2) {
+      return {
+        name: '不建議短天數硬衝',
+        description: `${origin}到高雄交通時間較長，不建議 ${days} 天塞太滿。短天數會把時間花在交通與拖行李移動。`,
+        reminder: `若只有 ${days} 天，建議只排市區輕行程，不要硬塞旗津、港邊與夜市全包。`,
+        href: 'trips/kaohsiung-3-days.html',
+        cta: '看 3 日安全牌'
+      };
+    }
     return {
-      name: '不建議短天數硬衝',
-      description: `${origin}到高雄交通時間較長，不建議 1～2 天塞太滿。至少抓 3～5 天，第一天以抵達與市區輕行程為主。`,
-      reminder: dayCount <= 2 ? '不建議短天數硬衝，避免把時間花在交通與拖行李移動。' : '第一天輕鬆抵達，後面再排港邊、旗津或左營回程線。',
-      href: 'trips/kaohsiung-3-days.html',
-      cta: '看 3 日安全牌'
+      name: '東部出發慢玩版',
+      description: `${origin}出發玩 ${days} 天比較合理。第一天以抵達與市區輕行程為主，後面再排港邊、旗津或左營回程線。`,
+      reminder: '東部出發不要第一天就排太硬，先降低交通疲勞。',
+      href: tripHref[dayCount] || 'trips/kaohsiung-3-days.html',
+      cta: slowTripCta[dayCount] || '看 3 日安全牌'
     };
   }
 
