@@ -1,0 +1,56 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "",
+  "sources": [
+    {
+      "id": "motc-tourism-database-v21",
+      "name": "交通部觀光署觀光資訊資料庫 V2.1",
+      "type": "official-open-data",
+      "priority": 1,
+      "intendedUse": ["景點", "活動", "餐飲", "旅宿", "旅遊服務站點", "步道", "自行車道"],
+      "format": ["JSON"],
+      "status": "planned",
+      "note": "後續優先使用 V2.1 JSON，不使用 V1.0 作為主格式。"
+    },
+    {
+      "id": "kaohsiung-open-data",
+      "name": "高雄市政府開放資料",
+      "type": "local-open-data",
+      "priority": 2,
+      "intendedUse": ["高雄景點", "高雄活動", "在地補充資料"],
+      "format": ["JSON", "CSV"],
+      "status": "planned",
+      "note": "作為高雄在地景點與活動補強來源。"
+    },
+    {
+      "id": "tdx-transport",
+      "name": "TDX 交通資料",
+      "type": "transport-data",
+      "priority": 3,
+      "intendedUse": ["捷運", "公車", "YouBike", "台鐵", "高鐵", "台灣好行"],
+      "format": ["API"],
+      "status": "planned",
+      "note": "未來用於交通與不開車行程判斷。"
+    },
+    {
+      "id": "tourism-statistics",
+      "name": "交通部觀光署觀光統計月報",
+      "type": "statistics",
+      "priority": 4,
+      "intendedUse": ["熱門程度", "人潮權重", "景點排序參考"],
+      "format": ["報表"],
+      "status": "planned",
+      "note": "用於熱門程度與人潮權重，不作為即時資料。"
+    },
+    {
+      "id": "taiwan-net-official-site",
+      "name": "交通部觀光署台灣觀光資訊網站 taiwan.net.tw",
+      "type": "official-reference-site",
+      "priority": 5,
+      "intendedUse": ["官方介紹確認", "多語參考", "分類參考"],
+      "format": ["HTML"],
+      "status": "reference-only",
+      "note": "不作為主要爬蟲來源。"
+    }
+  ]
+}

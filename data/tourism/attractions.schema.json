@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tourism Attraction",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "sourceId": { "type": "string" },
+    "sourceAttractionId": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "city": { "type": "string" },
+    "district": { "type": "string" },
+    "address": { "type": "string" },
+    "lat": { "type": ["number", "null"] },
+    "lon": { "type": ["number", "null"] },
+    "categories": { "type": "array", "items": { "type": "string" } },
+    "images": { "type": "array", "items": { "type": "object" } },
+    "serviceTime": { "type": "string" },
+    "trafficInfo": { "type": "string" },
+    "parkingInfo": { "type": "string" },
+    "facilities": { "type": "array", "items": { "type": "string" } },
+    "feeInfo": { "type": "string" },
+    "websiteUrl": { "type": "string" },
+    "suggestedDuration": { "type": "string" },
+    "updateTime": { "type": "string" },
+    "localTags": { "type": "array", "items": { "type": "string" } },
+    "routeUse": { "type": "array", "items": { "type": "string" } },
+    "reliabilityNote": { "type": "string" }
+  }
+}
