@@ -11,6 +11,7 @@ document.querySelectorAll('[data-origin]').forEach((button) => {
   button.addEventListener('click', () => {
     state.origin = button.dataset.origin;
     selectButton('origin', button);
+    updatePlannerResultIfVisible();
   });
 });
 
@@ -18,27 +19,103 @@ document.querySelectorAll('[data-days]').forEach((button) => {
   button.addEventListener('click', () => {
     state.days = button.dataset.days;
     selectButton('days', button);
+    updatePlannerResultIfVisible();
   });
 });
 
 const message = document.getElementById('planner-message');
 const planButton = document.getElementById('plan-button');
+const plannerResult = document.getElementById('planner-result');
+const plannerResultTitle = document.getElementById('planner-result-title');
+const plannerResultDescription = document.getElementById('planner-result-description');
+const plannerResultReminder = document.getElementById('planner-result-reminder');
+const plannerResultLink = document.getElementById('planner-result-link');
+
+function getTripRecommendation(origin, days) {
+  const dayCount = Number(days);
+  const fallback = {
+    name: '直接 3 日安全牌',
+    description: '第一次來高雄、懶得研究，先用 3 日安全牌。路線保守，但比較不會熱死、繞路或拖行李亂跑。',
+    reminder: '先照安全牌走，熱季中午保留室內休息點，下雨就改雨天備案。',
+    href: 'trips/kaohsiung-3-days.html',
+    cta: '看 3 日安全牌'
+  };
+
+  if (!origin || !days) return fallback;
+
+  if (['台北', '桃園', '新竹'].includes(origin)) {
+    return {
+      name: '高鐵 3 日安全牌',
+      description: `你從${origin}出發，適合搭高鐵到左營，第一天不要排太滿，第三天靠左營或高雄車站回程。`,
+      reminder: dayCount >= 4 ? '天數較充裕，可以放慢步調，增加雨天備案與住宿區判斷。' : '避開拖行李跑旗津、熱季中午走港邊、最後一天排太遠。',
+      href: 'trips/kaohsiung-3-days.html',
+      cta: '看 3 日安全牌'
+    };
+  }
+
+  if (['台中', '嘉義', '台南'].includes(origin)) {
+    const isTwoDays = dayCount === 2;
+    return {
+      name: '2～3 日短程版',
+      description: `你從${origin}出發，交通時間較短，適合週末或短假期。第一天可以直接進市區，第二天排港邊或夜市，最後一天不要排太遠。`,
+      reminder: dayCount === 1 ? '1 天不要排太滿，以半日或一日順路玩法為主。' : dayCount >= 4 ? '4～5 天可以放慢，加入雨天備案與住宿區判斷。' : '短程旅遊重點是少繞路，行李先放好再開始走。',
+      href: isTwoDays ? 'trips/kaohsiung-2-days.html' : 'trips/kaohsiung-3-days.html',
+      cta: isTwoDays ? '看 2 日短程版' : '看 3 日安全牌'
+    };
+  }
+
+  if (origin === '屏東') {
+    return {
+      name: '1～2 日輕旅行版',
+      description: '屏東出發不一定要住宿，適合半日、一日或輕住宿。不要把行程排成外地長天數玩法，重點是天氣、時間與地點順路。',
+      reminder: dayCount >= 3 ? '天數較多時也不要硬塞觀光客路線，優先依天氣與體力安排。' : '1～2 天以少轉乘、少曝曬、少繞路為主。',
+      href: 'local.html',
+      cta: '看本地玩法'
+    };
+  }
+
+  if (['台東', '花蓮'].includes(origin)) {
+    return {
+      name: '不建議短天數硬衝',
+      description: `${origin}到高雄交通時間較長，不建議 1～2 天塞太滿。至少抓 3～5 天，第一天以抵達與市區輕行程為主。`,
+      reminder: dayCount <= 2 ? '不建議短天數硬衝，避免把時間花在交通與拖行李移動。' : '第一天輕鬆抵達，後面再排港邊、旗津或左營回程線。',
+      href: 'trips/kaohsiung-3-days.html',
+      cta: '看 3 日安全牌'
+    };
+  }
+
+  if (origin === '高雄') {
+    return {
+      name: '半日／雨天／熱天玩法',
+      description: '本地人不用照觀光客路線，直接依天氣、時間與地點選半日玩法。熱天避開港邊中午，雨天改室內與商圈。',
+      reminder: '先決定今天要不要曬太陽，再選一區少轉乘、順路吃喝。',
+      href: 'local.html',
+      cta: '看本地玩法'
+    };
+  }
+
+  return fallback;
+}
+
+function renderPlannerResult(recommendation) {
+  if (!plannerResult || !plannerResultTitle || !plannerResultDescription || !plannerResultReminder || !plannerResultLink) return;
+  plannerResultTitle.textContent = `你的建議玩法：${recommendation.name}`;
+  plannerResultDescription.textContent = recommendation.description;
+  plannerResultReminder.textContent = `提醒：${recommendation.reminder}`;
+  plannerResultLink.href = recommendation.href;
+  plannerResultLink.textContent = recommendation.cta;
+  plannerResult.hidden = false;
+}
+
+function updatePlannerResultIfVisible() {
+  if (!plannerResult || plannerResult.hidden) return;
+  renderPlannerResult(getTripRecommendation(state.origin, state.days));
+}
 
 if (planButton) {
   planButton.addEventListener('click', () => {
-    if (!state.origin || !state.days) {
-      if (message) message.textContent = '請先選出發地和旅遊天數。';
-      return;
-    }
-
-    const routes = {
-      '2': 'trips/kaohsiung-2-days.html',
-      '3': 'trips/kaohsiung-3-days.html',
-      '4': 'trips/kaohsiung-4-days.html',
-      '5': 'trips/kaohsiung-5-days.html'
-    };
-
-    window.location.href = routes[state.days];
+    if (message) message.textContent = '';
+    renderPlannerResult(getTripRecommendation(state.origin, state.days));
   });
 }
 
