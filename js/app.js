@@ -33,11 +33,26 @@ document.querySelectorAll('[data-play]').forEach((button) => {
 
 const message = document.getElementById('planner-message');
 const planButton = document.getElementById('plan-button');
+const originSelect = document.getElementById('origin-select');
+const daysSelect = document.getElementById('days-select');
 const plannerResult = document.getElementById('planner-result');
 const plannerResultTitle = document.getElementById('planner-result-title');
 const plannerResultDescription = document.getElementById('planner-result-description');
-const plannerResultReminder = document.getElementById('planner-result-reminder');
 const plannerResultLink = document.getElementById('planner-result-link');
+
+if (originSelect) {
+  originSelect.addEventListener('change', () => {
+    state.origin = originSelect.value;
+    updatePlannerResultIfVisible();
+  });
+}
+
+if (daysSelect) {
+  daysSelect.addEventListener('change', () => {
+    state.days = daysSelect.value;
+    updatePlannerResultIfVisible();
+  });
+}
 
 function getTripRecommendation(origin, days) {
   const dayCount = Number(days);
@@ -59,6 +74,25 @@ function getTripRecommendation(origin, days) {
     href: 'trips/kaohsiung-3-days.html',
     cta: '看 3 日安全牌'
   };
+
+  if (!origin && dayCount) {
+    if (dayCount === 1) {
+      return {
+        name: '一日輕量玩法',
+        description: '還沒選出發地，先用一日輕量玩法判斷。建議只選一區，不要把港邊、夜市與旗津全部塞滿。',
+        reminder: '一日玩法重點是少移動、少曝曬、回程方便。',
+        href: 'local.html',
+        cta: '看輕量玩法'
+      };
+    }
+    return {
+      name: `${dayCount} 天不開車玩法`,
+      description: `還沒選出發地，先依 ${dayCount} 天產生保守行程。建議照天數安排，不要每天跨太多區。`,
+      reminder: '先選住宿基地，再把港邊、雨天備案與回程線分開。',
+      href: tripHref[dayCount] || 'trips/kaohsiung-3-days.html',
+      cta: slowTripCta[dayCount] || (dayCount === 2 ? '看 2 日玩法' : '看 3 日安全牌')
+    };
+  }
 
   if (!origin || !days) return fallback;
 
@@ -179,10 +213,9 @@ function getTripRecommendation(origin, days) {
 }
 
 function renderPlannerResult(recommendation) {
-  if (!plannerResult || !plannerResultTitle || !plannerResultDescription || !plannerResultReminder || !plannerResultLink) return;
+  if (!plannerResult || !plannerResultTitle || !plannerResultDescription || !plannerResultLink) return;
   plannerResultTitle.textContent = `你的建議玩法：${recommendation.name}`;
   plannerResultDescription.textContent = recommendation.description;
-  plannerResultReminder.textContent = `提醒：${recommendation.reminder}`;
   plannerResultLink.href = recommendation.href;
   plannerResultLink.textContent = recommendation.cta;
   plannerResult.hidden = false;
