@@ -17,22 +17,49 @@
 <body>
   <header class="site-header">
     <a class="brand" href="index.html">一路玩高雄 <span>Fun in Kaohsiung</span></a>
-    <nav class="top-nav" aria-label="主要導覽">
-      <a href="index.html">首頁</a>
-      <a href="#planner">行程</a>
-      <a href="#spots">景點</a>
-      <a href="stay.html">住宿</a>
-      <a href="rainy-day.html">雨天</a>
-      <a href="hot-season.html">夏天玩法</a>
-      <a href="local.html">本地玩法</a>
-    </nav>
+    <button class="language-toggle" type="button" aria-label="語言切換">🌐 繁中 ▾</button>
   </header>
 
   <main>
     <section class="hero clean-hero">
-      <p class="eyebrow">高雄不開車自由行工具</p>
-      <h1>高雄不開車怎麼玩？</h1>
-      <p class="subtitle">搭捷運、輕軌、渡輪，把高雄景點順路排好。</p>
+      <div class="hero-copy">
+        <p class="eyebrow">高雄不開車自由行工具</p>
+        <h1>高雄不開車怎麼玩？</h1>
+        <p class="subtitle">搭捷運、輕軌、渡輪，把高雄景點順路排好。</p>
+      </div>
+      <div class="hero-illustration" aria-hidden="true">
+        <span class="hero-sun"></span>
+        <span class="hero-cloud hero-cloud-a"></span>
+        <span class="hero-cloud hero-cloud-b"></span>
+        <span class="hero-skyline"></span>
+        <span class="hero-warehouse"></span>
+        <span class="hero-rail"></span>
+        <span class="hero-tram"></span>
+        <span class="hero-water"></span>
+        <span class="hero-ferry"></span>
+      </div>
+    </section>
+
+    <section class="flow-card" aria-labelledby="flow-title">
+      <div class="flow-card-head">
+        <h2 id="flow-title">怎麼開始</h2>
+        <span>流程總覽</span>
+      </div>
+      <div class="flow-grid">
+        <article><strong>選出發地</strong><span>選起點</span></article>
+        <article><strong>選天數／玩法</strong><span>選偏好</span></article>
+        <article><strong>產生推薦</strong><span>看推薦</span></article>
+        <article><strong>避雷提醒</strong><span>先避開</span></article>
+        <article><strong>交通方式</strong><span>怎麼去</span></article>
+        <article><strong>住宿基地</strong><span>住哪裡</span></article>
+      </div>
+      <div class="flow-chips" aria-label="輔助入口">
+        <span>順路吃喝</span>
+        <span>安全牌行程</span>
+        <span>雨天／熱天</span>
+        <span>本地玩法</span>
+        <span>旅人提醒</span>
+      </div>
     </section>
 
     <section id="planner" class="planner card planner-select-card">
