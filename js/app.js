@@ -1,4 +1,4 @@
-const state = { origin: '', days: '' };
+const state = { origin: '', days: '', play: '' };
 
 function selectButton(groupName, button) {
   document.querySelectorAll(`[data-group="${groupName}"] button`).forEach((item) => {
@@ -19,6 +19,14 @@ document.querySelectorAll('[data-days]').forEach((button) => {
   button.addEventListener('click', () => {
     state.days = button.dataset.days;
     selectButton('days', button);
+    updatePlannerResultIfVisible();
+  });
+});
+
+document.querySelectorAll('[data-play]').forEach((button) => {
+  button.addEventListener('click', () => {
+    state.play = button.dataset.play;
+    selectButton('play', button);
     updatePlannerResultIfVisible();
   });
 });
@@ -54,7 +62,7 @@ function getTripRecommendation(origin, days) {
 
   if (!origin || !days) return fallback;
 
-  if (['台北', '桃園', '新竹'].includes(origin)) {
+  if (['台北', '新北', '基隆', '桃園', '新竹', '宜蘭'].includes(origin)) {
     if (dayCount === 1) {
       return {
         name: '高鐵一日快閃版',
@@ -91,7 +99,7 @@ function getTripRecommendation(origin, days) {
     };
   }
 
-  if (['台中', '嘉義', '台南'].includes(origin)) {
+  if (['苗栗', '台中', '彰化', '南投', '雲林', '嘉義', '台南'].includes(origin)) {
     if (dayCount === 1) {
       return {
         name: '短程一日輕旅行',
@@ -138,7 +146,7 @@ function getTripRecommendation(origin, days) {
     };
   }
 
-  if (['台東', '花蓮'].includes(origin)) {
+  if (['台東', '花蓮', '澎湖', '金門', '馬祖'].includes(origin)) {
     if (dayCount <= 2) {
       return {
         name: '不建議短天數硬衝',
