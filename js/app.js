@@ -1,35 +1,4 @@
-const state = { origin: '', days: '', play: '' };
-
-function selectButton(groupName, button) {
-  document.querySelectorAll(`[data-group="${groupName}"] button`).forEach((item) => {
-    item.classList.remove('is-selected');
-  });
-  button.classList.add('is-selected');
-}
-
-document.querySelectorAll('[data-origin]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.origin = button.dataset.origin;
-    selectButton('origin', button);
-    updatePlannerResultIfVisible();
-  });
-});
-
-document.querySelectorAll('[data-days]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.days = button.dataset.days;
-    selectButton('days', button);
-    updatePlannerResultIfVisible();
-  });
-});
-
-document.querySelectorAll('[data-play]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.play = button.dataset.play;
-    selectButton('play', button);
-    updatePlannerResultIfVisible();
-  });
-});
+const state = { origin: '', days: '' };
 
 const message = document.getElementById('planner-message');
 const planButton = document.getElementById('plan-button');
@@ -74,25 +43,6 @@ function getTripRecommendation(origin, days) {
     href: 'trips/kaohsiung-3-days.html',
     cta: '看 3 日安全牌'
   };
-
-  if (!origin && dayCount) {
-    if (dayCount === 1) {
-      return {
-        name: '一日輕量玩法',
-        description: '還沒選出發地，先用一日輕量玩法判斷。建議只選一區，不要把港邊、夜市與旗津全部塞滿。',
-        reminder: '一日玩法重點是少移動、少曝曬、回程方便。',
-        href: 'local.html',
-        cta: '看輕量玩法'
-      };
-    }
-    return {
-      name: `${dayCount} 天不開車玩法`,
-      description: `還沒選出發地，先依 ${dayCount} 天產生保守行程。建議照天數安排，不要每天跨太多區。`,
-      reminder: '先選住宿基地，再把港邊、雨天備案與回程線分開。',
-      href: tripHref[dayCount] || 'trips/kaohsiung-3-days.html',
-      cta: slowTripCta[dayCount] || (dayCount === 2 ? '看 2 日玩法' : '看 3 日安全牌')
-    };
-  }
 
   if (!origin || !days) return fallback;
 
@@ -229,6 +179,19 @@ function updatePlannerResultIfVisible() {
 if (planButton) {
   planButton.addEventListener('click', () => {
     if (message) message.textContent = '';
+    if (!state.origin || !state.days) {
+      if (plannerResult) plannerResult.hidden = true;
+      if (message) {
+        if (!state.origin && !state.days) {
+          message.textContent = '請先選擇出發地與旅遊天數。';
+        } else if (!state.origin) {
+          message.textContent = '請先選擇出發地。';
+        } else {
+          message.textContent = '請先選擇旅遊天數。';
+        }
+      }
+      return;
+    }
     renderPlannerResult(getTripRecommendation(state.origin, state.days));
   });
 }
