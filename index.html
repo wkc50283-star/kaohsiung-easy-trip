@@ -16,235 +16,155 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html">一路玩高雄</a>
+    <a class="brand" href="index.html">一路玩高雄 <span>Fun in Kaohsiung</span></a>
     <nav class="top-nav" aria-label="主要導覽">
       <a href="index.html">首頁</a>
       <a href="#planner">行程</a>
-      <a href="local.html">本地玩法</a>
-      <a href="weather.html">天氣</a>
-      <a href="#food">吃喝</a>
+      <a href="#spots">景點</a>
       <a href="stay.html">住宿</a>
       <a href="rainy-day.html">雨天</a>
       <a href="hot-season.html">夏天玩法</a>
+      <a href="local.html">本地玩法</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <p class="eyebrow">高雄不開車自由行工具</p>
-      <h1>高雄不開車怎麼玩？</h1>
-      <p class="subtitle">選出發地、選天數，行程、交通、住宿區、順路吃喝都幫你排好。</p>
-      <p class="note">給不想開車、不想排行程、有選擇性障礙的人使用。不用開車，也不要把自己排死。幫你避開暴曬、拖行李、繞路與雨天爆掉。</p>
-      <div class="hero-route" aria-label="高雄不開車範例路線">
-        <p class="route-kicker">範例路線</p>
-        <ol class="route-stations route-stations--example">
-          <li><span></span><strong>左營</strong></li>
-          <li><span></span><strong>美麗島</strong></li>
-          <li><span></span><strong>鹽埕埔</strong></li>
-          <li><span></span><strong>駁二</strong></li>
-          <li><span></span><strong>鼓山渡輪</strong></li>
-          <li><span></span><strong>旗津</strong></li>
-        </ol>
-        <p class="route-mode">高鐵 → 捷運 → 輕軌 → 步行 → 渡輪 → 步行</p>
-        <p class="route-hint">這只是範例，不是固定答案；實際玩法會依出發地與天數調整。</p>
+    <section class="hero video-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">高雄不開車自由行工具</p>
+        <h1>高雄不開車怎麼玩？</h1>
+        <p class="subtitle">搭捷運、輕軌、渡輪，把高雄景點順路排好。</p>
+      </div>
+      <div class="harbor-scene" aria-hidden="true">
+        <span class="scene-sun"></span>
+        <span class="scene-cloud scene-cloud-a"></span>
+        <span class="scene-cloud scene-cloud-b"></span>
+        <span class="scene-skyline"></span>
+        <span class="scene-rail"></span>
+        <span class="scene-tram"></span>
+        <span class="scene-water"></span>
+        <span class="scene-ferry"></span>
       </div>
       <div class="hero-actions">
         <a class="back-button" href="#planner">開始安排我的高雄行程</a>
-        <a class="ghost-button" href="local.html">我是高雄人，想在地玩</a>
       </div>
     </section>
 
-    <section id="planner" class="planner card">
-      <h2>先選你從哪裡出發</h2>
-      <div class="origin-groups" data-group="origin">
-        <div class="choice-group">
-          <h3>北部出發</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="台北">台北</button>
-            <button type="button" data-origin="新北">新北</button>
-            <button type="button" data-origin="基隆">基隆</button>
-            <button type="button" data-origin="桃園">桃園</button>
-            <button type="button" data-origin="新竹">新竹</button>
-            <button type="button" data-origin="宜蘭">宜蘭</button>
-          </div>
-        </div>
-        <div class="choice-group">
-          <h3>中部出發</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="苗栗">苗栗</button>
-            <button type="button" data-origin="台中">台中</button>
-            <button type="button" data-origin="彰化">彰化</button>
-            <button type="button" data-origin="南投">南投</button>
-            <button type="button" data-origin="雲林">雲林</button>
-          </div>
-        </div>
-        <div class="choice-group">
-          <h3>雲嘉南出發</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="嘉義">嘉義</button>
-            <button type="button" data-origin="台南">台南</button>
-          </div>
-        </div>
-        <div class="choice-group">
-          <h3>南部出發</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="屏東">屏東</button>
-          </div>
-        </div>
-        <div class="choice-group">
-          <h3>東部與離島</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="花蓮">花蓮</button>
-            <button type="button" data-origin="台東">台東</button>
-            <button type="button" data-origin="澎湖">澎湖</button>
-            <button type="button" data-origin="金門">金門</button>
-            <button type="button" data-origin="馬祖">馬祖</button>
-          </div>
-        </div>
-        <div class="choice-group">
-          <h3>高雄本地</h3>
-          <div class="pill-row">
-            <button type="button" data-origin="高雄">半日</button>
-            <button type="button" data-origin="高雄">雨天</button>
-            <button type="button" data-origin="高雄">熱天玩法</button>
-          </div>
-        </div>
+    <section class="route-card app-card" aria-label="不開車範例路線">
+      <div class="route-card-head">
+        <p class="route-kicker">不開車範例路線</p>
       </div>
+      <ol class="route-stations route-stations--example">
+        <li><span></span><strong>左營</strong></li>
+        <li><span></span><strong>美麗島</strong></li>
+        <li><span></span><strong>鹽埕埔</strong></li>
+        <li><span></span><strong>駁二</strong></li>
+        <li><span></span><strong>鼓山渡輪</strong></li>
+        <li><span></span><strong>旗津</strong></li>
+      </ol>
+      <p class="route-mode">高鐵 → 捷運 → 輕軌 → 步行 → 渡輪 → 步行</p>
+      <p class="route-hint">這只是範例，不是固定答案；實際玩法會依出發地與天數調整。</p>
+    </section>
 
-      <h2>再選你要玩幾天／玩法</h2>
-      <div class="button-grid days app-choice-grid" data-group="days">
-        <button type="button" data-days="1">1 天<span>一日輕旅行</span></button>
-        <button type="button" data-days="2">2 天<span>週末輕旅行</span></button>
-        <button type="button" data-days="3">3 天<span>第一次來安全牌</span></button>
-        <button type="button" data-days="4">4 天<span>慢遊港都</span></button>
-        <button type="button" data-days="5">5 天<span>深度不趕路</span></button>
+    <section class="transport-icons" aria-label="交通方式">
+      <article><span>🚄</span><strong>高鐵</strong></article>
+      <article><span>🚇</span><strong>捷運</strong></article>
+      <article><span>🚈</span><strong>輕軌</strong></article>
+      <article><span>⛴️</span><strong>渡輪</strong></article>
+      <article><span>🚲</span><strong>YouBike</strong></article>
+      <article><span>🚶</span><strong>步行</strong></article>
+    </section>
+
+    <section id="planner" class="planner card planner-select-card">
+      <h2>開始安排我的高雄行程</h2>
+      <div class="select-stack">
+        <label for="origin-select">你從哪裡出發？</label>
+        <select id="origin-select">
+          <option value="">請選擇出發地</option>
+          <optgroup label="北部出發">
+            <option value="台北">台北</option>
+            <option value="新北">新北</option>
+            <option value="基隆">基隆</option>
+            <option value="桃園">桃園</option>
+            <option value="新竹">新竹</option>
+            <option value="宜蘭">宜蘭</option>
+          </optgroup>
+          <optgroup label="中部出發">
+            <option value="苗栗">苗栗</option>
+            <option value="台中">台中</option>
+            <option value="彰化">彰化</option>
+            <option value="南投">南投</option>
+            <option value="雲林">雲林</option>
+          </optgroup>
+          <optgroup label="雲嘉南出發">
+            <option value="嘉義">嘉義</option>
+            <option value="台南">台南</option>
+          </optgroup>
+          <optgroup label="南部出發">
+            <option value="屏東">屏東</option>
+          </optgroup>
+          <optgroup label="東部與離島">
+            <option value="花蓮">花蓮</option>
+            <option value="台東">台東</option>
+            <option value="澎湖">澎湖</option>
+            <option value="金門">金門</option>
+            <option value="馬祖">馬祖</option>
+          </optgroup>
+          <optgroup label="高雄本地">
+            <option value="高雄">高雄本地</option>
+          </optgroup>
+        </select>
       </div>
-      <div class="pill-row play-row" data-group="play">
-        <button type="button" data-play="半日">半日</button>
-        <button type="button" data-play="雨天">雨天</button>
-        <button type="button" data-play="熱天">熱天</button>
-        <button type="button" data-play="親子">親子</button>
-        <button type="button" data-play="長輩">長輩</button>
-        <button type="button" data-play="晚上">晚上</button>
+      <div class="select-stack">
+        <label for="days-select">你想玩幾天？</label>
+        <select id="days-select">
+          <option value="">請選擇旅遊天數</option>
+          <option value="1">1 天｜一日輕旅行</option>
+          <option value="2">2 天｜週末輕旅行</option>
+          <option value="3">3 天｜三天兩夜</option>
+          <option value="4">4 天｜慢遊高雄</option>
+          <option value="5">5 天｜深度不趕路</option>
+        </select>
       </div>
 
       <p id="planner-message" class="message" aria-live="polite"></p>
-      <button id="plan-button" class="cta" type="button">幫我排好</button>
+      <button id="plan-button" class="cta" type="button">產生我的高雄玩法</button>
     </section>
 
     <section id="planner-result" class="planner-result" hidden aria-live="polite">
-      <p class="eyebrow">產生推薦</p>
       <h2 id="planner-result-title"></h2>
       <p id="planner-result-description"></p>
-      <p id="planner-result-reminder" class="planner-result-reminder"></p>
       <a id="planner-result-link" class="back-button" href="trips/kaohsiung-3-days.html">看這條行程</a>
     </section>
 
-    <section id="avoid" class="home-section app-section">
-      <h2>先避開這些錯誤</h2>
-      <div class="compact-list-grid">
-        <article class="info-card compact-card">不要拖大行李去旗津</article>
-        <article class="info-card compact-card">不要把港邊和海邊排在中午暴曬</article>
-        <article class="info-card compact-card">不要最後一天排太遠</article>
-        <article class="info-card compact-card">不要雨天硬走海邊</article>
-        <article class="info-card compact-card">不要以為每個點都捷運直達</article>
+    <section id="popular" class="home-section app-section">
+      <h2>熱門不開車玩法</h2>
+      <div class="featured-routes">
+        <a class="feature-trip-card" href="spots/cijin.html"><span>渡輪＋海風</span><h3>旗津輕旅行</h3><p>搭渡輪進旗津，雨天與熱季中午先保留備案。</p></a>
+        <a class="feature-trip-card" href="spots/pier2.html"><span>港邊慢走</span><h3>鹽埕駁二半日</h3><p>駁二、大港橋、港邊散步，適合少轉乘玩法。</p></a>
+        <a class="feature-trip-card" href="spots/sizihwan.html"><span>傍晚散步</span><h3>西子灣夕陽散步</h3><p>捷運到西子灣，順接鼓山渡輪與海景路線。</p></a>
       </div>
     </section>
 
-    <section id="transport" class="home-section app-section">
-      <h2>高雄不開車，主要靠這幾種方式</h2>
-      <div class="transport-grid">
-        <article class="info-card compact-card"><h3>高鐵</h3><p>外地旅客多從左營進出，最後一天別排太遠。</p></article>
-        <article class="info-card compact-card"><h3>台鐵</h3><p>適合高雄火車站周邊與市區轉乘。</p></article>
-        <article class="info-card compact-card"><h3>捷運</h3><p>紅線、橘線是市區移動主幹。</p></article>
-        <article class="info-card compact-card"><h3>輕軌</h3><p>串接港邊、駁二、亞灣與部分景點。</p></article>
-        <article class="info-card compact-card"><h3>公車</h3><p>補足捷運不到的地方，適合少量搭配。</p></article>
-        <article class="info-card compact-card"><h3>客運</h3><p>適合跨縣市進出或特定長距離路線。</p></article>
-        <article class="info-card compact-card"><h3>渡輪</h3><p>旗津玩法常會用到，雨天與風大要保留備案。</p></article>
-        <article class="info-card compact-card"><h3>YouBike</h3><p>短距離可用，但熱天中午不要硬騎。</p></article>
-        <article class="info-card compact-card"><h3>步行</h3><p>適合商圈與港邊短距離，不適合拖大行李。</p></article>
+    <section id="more" class="home-section app-section">
+      <h2>更多順路玩法</h2>
+      <div class="more-grid">
+        <article id="avoid" class="entry-card"><h3>避雷提醒</h3><p>先避開拖行李、暴曬、雨天海邊。</p></article>
+        <a class="entry-card" href="stay.html"><h3>住宿基地</h3><p>先判斷住哪一區比較順。</p></a>
+        <article id="food" class="entry-card"><h3>順路吃喝</h3><p>不是找排名，是少繞路。</p></article>
+        <a id="spots" class="entry-card" href="spots/pier2.html"><h3>主景點順路玩法</h3><p>先從駁二、旗津、西子灣開始。</p></a>
+        <a class="entry-card" href="rainy-day.html"><h3>雨天／熱天／本地玩法</h3><p>天氣不對，就改室內或早晚玩。</p></a>
+        <article id="language" class="entry-card"><h3>Language</h3><p>繁中已開放，其他語言準備中。</p></article>
       </div>
     </section>
 
-    <section id="stay" class="stay-section app-section">
-      <h2>住宿基地</h2>
-      <div class="stay-grid stay-base-grid">
-        <article class="card compact-card"><h3>高雄火車站</h3><p>住宿多、價格帶廣，適合台鐵進出與第一次來。</p></article>
-        <article class="card compact-card"><h3>美麗島／六合夜市</h3><p>捷運紅橘線交會，吃東西與轉乘方便。</p></article>
-        <article class="card compact-card"><h3>鹽埕／駁二</h3><p>港邊慢遊最順，適合想住出高雄味。</p></article>
-        <article class="card compact-card"><h3>三多商圈／亞灣</h3><p>百貨、展覽、雨天備案方便，往輕軌與亞灣也順。</p></article>
-        <article class="card compact-card"><h3>左營／巨蛋</h3><p>高鐵進出、演唱會、最後一天回程最穩。</p></article>
-      </div>
-    </section>
-
-    <section id="food" class="home-section app-section">
-      <h2>順路吃喝，不多繞路</h2>
-      <p class="section-note">不是找全高雄最好吃，而是幫你少繞路、順路吃。</p>
-      <div class="content-grid static-card-grid">
-        <article class="info-card compact-card"><h3>高雄火車站附近順路吃</h3></article>
-        <article class="info-card compact-card"><h3>美麗島／六合附近順路吃</h3></article>
-        <article class="info-card compact-card"><h3>鹽埕／駁二附近順路吃</h3></article>
-        <article class="info-card compact-card"><h3>旗津渡輪前後順路吃</h3></article>
-        <article class="info-card compact-card"><h3>左營回程前順路吃</h3></article>
-        <article class="info-card compact-card"><h3>三多／亞灣雨天順路吃</h3></article>
-      </div>
-    </section>
-
-    <section id="trip-pages" class="home-section app-section">
-      <h2>懶得想，直接從這幾條開始</h2>
-      <div class="content-grid">
-        <article class="info-card compact-card is-disabled"><h3>高雄 1 日遊</h3><p>coming soon，目前先用本地玩法或 2 日遊刪減。</p></article>
-        <a class="info-card link-card" href="trips/kaohsiung-2-days.html"><h3>高雄 2 日遊</h3><p>兩天一夜，適合第一次快速入門。</p></a>
-        <a class="info-card link-card" href="trips/kaohsiung-3-days.html"><h3>高雄 3 日遊</h3><p>三天兩夜，市區、港邊、旗津與左營回程。</p></a>
-        <a class="info-card link-card" href="trips/kaohsiung-4-days.html"><h3>高雄 4 日遊</h3><p>慢遊高雄，加入衛武營、夢時代與更多港邊時間。</p></a>
-        <a class="info-card link-card" href="trips/kaohsiung-5-days.html"><h3>高雄 5 日遊</h3><p>五天四夜，適合外地旅客完整照著玩。</p></a>
-      </div>
-    </section>
-
-    <section id="spots" class="home-section app-section">
-      <h2>主景點順路玩法</h2>
-      <p class="section-note">先選一個主景點，再看附近順路玩法。</p>
-      <div class="spot-grid compact-grid">
-        <a class="info-card link-card" href="spots/pier2.html"><h3>駁二／鹽埕</h3><p>港邊、拍照、大港橋、棧貳庫。</p></a>
-        <a class="info-card link-card" href="spots/cijin.html"><h3>旗津</h3><p>渡輪、老街、海邊，注意雨天與熱季。</p></a>
-        <a class="info-card link-card" href="spots/sizihwan.html"><h3>西子灣</h3><p>捷運、鼓山渡輪、海景散步。</p></a>
-        <a class="info-card link-card" href="spots/ruifeng-night-market.html"><h3>瑞豐夜市</h3><p>晚上吃喝，順接巨蛋與左營。</p></a>
-        <a class="info-card link-card" href="spots/kaohsiung-arena.html"><h3>高雄巨蛋</h3><p>演唱會、漢神巨蛋、瑞豐夜市。</p></a>
-        <a class="info-card link-card" href="spots/weiwuying.html"><h3>衛武營</h3><p>藝術中心與都會公園要分清楚。</p></a>
-        <a class="info-card link-card" href="spots/dream-mall.html"><h3>夢時代</h3><p>親子、購物、雨天避暑。</p></a>
-        <a class="info-card link-card" href="spots/lotus-pond.html"><h3>蓮池潭</h3><p>左營舊城，適合最後一天回程線。</p></a>
-      </div>
-    </section>
-
-    <section id="quick-links" class="home-section app-section" aria-label="天氣與本地玩法">
-      <h2>天氣不對，也不要硬排</h2>
-      <div class="quick-grid">
-        <a class="card feature-card compact-card" href="local.html"><span>高雄本地人玩法</span><strong>半日出門</strong></a>
-        <a class="card feature-card compact-card" href="weather.html"><span>看今天高雄天氣</span><strong>先看熱雨</strong></a>
-        <a class="card feature-card compact-card" href="rainy-day.html"><span>下雨怎麼玩</span><strong>改走室內</strong></a>
-        <a class="card feature-card compact-card" href="hot-season.html"><span>今天很熱怎麼玩</span><strong>改排早晚</strong></a>
-      </div>
-    </section>
-
-    <section id="traveler-notes" class="home-section app-section">
+    <section id="traveler-notes" class="home-section app-section traveler-card">
       <h2>旅人實走提醒</h2>
-      <p class="info-card compact-card">之後會整理旅人實際走過的提醒，例如太熱、拖行李不方便、長輩會累、雨天不適合等。</p>
-    </section>
-
-    <section id="language" class="home-section app-section language-section">
-      <h2>Language</h2>
-      <div class="language-row">
-        <span>繁體中文</span>
-        <span>English 準備中</span>
-        <span>日本語 準備中</span>
-        <span>한국어 준비 중</span>
-        <span>简体中文 准备中</span>
-      </div>
+      <p>之後會整理旅人實際走過的提醒，例如太熱、拖行李不方便、長輩會累、雨天不適合等。</p>
     </section>
 
     <section class="bottom-cta">
       <h2>不用開車，也能把高雄玩順。</h2>
-      <p>從出發地、天數、交通到住宿區，先避開繞路、暴曬、拖行李和雨天爆掉。</p>
       <a class="back-button" href="#planner">開始安排我的高雄行程</a>
     </section>
   </main>

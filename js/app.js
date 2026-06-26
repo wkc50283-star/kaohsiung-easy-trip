@@ -1,43 +1,27 @@
-const state = { origin: '', days: '', play: '' };
-
-function selectButton(groupName, button) {
-  document.querySelectorAll(`[data-group="${groupName}"] button`).forEach((item) => {
-    item.classList.remove('is-selected');
-  });
-  button.classList.add('is-selected');
-}
-
-document.querySelectorAll('[data-origin]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.origin = button.dataset.origin;
-    selectButton('origin', button);
-    updatePlannerResultIfVisible();
-  });
-});
-
-document.querySelectorAll('[data-days]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.days = button.dataset.days;
-    selectButton('days', button);
-    updatePlannerResultIfVisible();
-  });
-});
-
-document.querySelectorAll('[data-play]').forEach((button) => {
-  button.addEventListener('click', () => {
-    state.play = button.dataset.play;
-    selectButton('play', button);
-    updatePlannerResultIfVisible();
-  });
-});
+const state = { origin: '', days: '' };
 
 const message = document.getElementById('planner-message');
 const planButton = document.getElementById('plan-button');
+const originSelect = document.getElementById('origin-select');
+const daysSelect = document.getElementById('days-select');
 const plannerResult = document.getElementById('planner-result');
 const plannerResultTitle = document.getElementById('planner-result-title');
 const plannerResultDescription = document.getElementById('planner-result-description');
-const plannerResultReminder = document.getElementById('planner-result-reminder');
 const plannerResultLink = document.getElementById('planner-result-link');
+
+if (originSelect) {
+  originSelect.addEventListener('change', () => {
+    state.origin = originSelect.value;
+    updatePlannerResultIfVisible();
+  });
+}
+
+if (daysSelect) {
+  daysSelect.addEventListener('change', () => {
+    state.days = daysSelect.value;
+    updatePlannerResultIfVisible();
+  });
+}
 
 function getTripRecommendation(origin, days) {
   const dayCount = Number(days);
@@ -179,10 +163,9 @@ function getTripRecommendation(origin, days) {
 }
 
 function renderPlannerResult(recommendation) {
-  if (!plannerResult || !plannerResultTitle || !plannerResultDescription || !plannerResultReminder || !plannerResultLink) return;
+  if (!plannerResult || !plannerResultTitle || !plannerResultDescription || !plannerResultLink) return;
   plannerResultTitle.textContent = `你的建議玩法：${recommendation.name}`;
   plannerResultDescription.textContent = recommendation.description;
-  plannerResultReminder.textContent = `提醒：${recommendation.reminder}`;
   plannerResultLink.href = recommendation.href;
   plannerResultLink.textContent = recommendation.cta;
   plannerResult.hidden = false;
@@ -196,6 +179,19 @@ function updatePlannerResultIfVisible() {
 if (planButton) {
   planButton.addEventListener('click', () => {
     if (message) message.textContent = '';
+    if (!state.origin || !state.days) {
+      if (plannerResult) plannerResult.hidden = true;
+      if (message) {
+        if (!state.origin && !state.days) {
+          message.textContent = '請先選擇出發地與旅遊天數。';
+        } else if (!state.origin) {
+          message.textContent = '請先選擇出發地。';
+        } else {
+          message.textContent = '請先選擇旅遊天數。';
+        }
+      }
+      return;
+    }
     renderPlannerResult(getTripRecommendation(state.origin, state.days));
   });
 }
