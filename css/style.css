@@ -30,3 +30,6 @@ body{color:#143D73;background:radial-gradient(circle at 72% 6%,rgba(253,230,178,
 
 /* Homepage select cleanup */
 .planner-select-card{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(244,252,253,.95));border-color:rgba(143,214,203,.58);box-shadow:0 12px 26px rgba(20,61,115,.08)}.planner-select-card::after{background:linear-gradient(90deg,rgba(143,214,203,.08) 1px,transparent 1px),linear-gradient(0deg,rgba(20,61,115,.035) 1px,transparent 1px);background-size:34px 34px}.select-stack select{background:#fff;color:#143D73;border-color:#BFE8E1;box-shadow:0 3px 10px rgba(20,61,115,.04)}.planner-select-card .cta,.planner .cta{background:linear-gradient(135deg,#0f9f9a,#0f5f9f);color:#fff;box-shadow:0 12px 22px rgba(15,95,159,.2),inset 0 1px 0 rgba(255,255,255,.28)}
+
+/* Compact popular route cards */
+.featured-routes{gap:8px}.feature-trip-card{min-height:104px;padding:13px 14px;border-radius:18px}.feature-trip-card span{margin-bottom:5px;padding:3px 9px;font-size:13px}.feature-trip-card h3{margin-bottom:4px;font-size:22px}.feature-trip-card p{font-size:15px;line-height:1.3}
