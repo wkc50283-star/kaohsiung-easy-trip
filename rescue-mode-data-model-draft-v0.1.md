@@ -9,7 +9,7 @@
 本文件目的：
 
 1. 定義備援模式第一版最小資料模型。
-2. 把第一批 JSON 收斂成 4 張資料表。
+2. 把第一批 JSON 收斂成 5 張資料表。
 3. 明確排除第一版用不到、重複、容易誤導交通判斷或會讓 JSON 過肥的欄位。
 4. 保留「不要害旅人越走越遠」作為資料建模最高原則。
 5. 建立 Needs review 標記規則，避免未確認交通資訊被包裝成確定建議。
@@ -25,6 +25,27 @@
 7. 未經官方確認，一律標 Needs review。
 
 ## 2. 資料建模原則
+
+推薦行程可以存在，但不能假設使用者一定照走。
+
+第一版核心不是固定行程表，而是：
+
+> 推薦行程 + 不開車旅遊接續引擎。
+
+備援模式是接續引擎中的一種狀況：當使用者太累、下雨、時間晚、交通不順或想收回行程時使用。
+
+使用者可能前後顛倒、南北東西亂跑、臨時換更遠景點。因此資料模型不能只知道單點在哪裡，也要能判斷旅遊圈之間能不能接。
+
+系統必須能判斷：
+
+1. `currentZone`
+2. `targetZone`
+3. 中間交通主幹
+4. 是否順路
+5. 是否較繞
+6. 是否不建議
+7. 替代方向
+8. 安全回收方向
 
 第一版資料建模採保守原則：
 
@@ -65,25 +86,27 @@
 
 ## 3. 第一版資料模型總覽
 
-第一批 JSON 最少只需要 4 張資料表：
+第一批 JSON 最少需要 5 張資料表：
 
 | 資料表 | 用途 | 第一版定位 |
 |---|---|---|
 | `rescue-zones` | 定義旅遊圈、回收點與三種分級方向 | 核心表 |
 | `rescue-places` | 定義備援辨識點與所屬旅遊圈 | 輔助辨識表 |
 | `rescue-hubs` | 定義交通回收點與回收方向 | 安全回收表 |
+| `zone-connections` | 定義旅遊圈之間的接續關係與推薦等級 | 接續引擎核心表 |
 | `rescue-rules` | 定義備援情境、必問問題與保守提醒 | 判斷規則表 |
 
 `rescue-result` 不做靜態資料表。
 
-`rescue-result` 只作為前台輸出格式，由 `rescue-zones`、`rescue-places`、`rescue-hubs` 與 `rescue-rules` 組合產生。
+`rescue-result` 只作為前台輸出格式，由 `rescue-zones`、`rescue-places`、`rescue-hubs`、`zone-connections` 與 `rescue-rules` 組合產生。
 
 資料關係：
 
 1. `rescue-places` 透過 `zoneId` 連到 `rescue-zones`。
 2. `rescue-zones` 透過 `safeRecoveryHubs` 連到 `rescue-hubs`。
-3. `rescue-rules` 根據使用者情境與旅遊圈，決定輸出分級建議。
-4. 每筆資料都必須可追溯到 `sourceDocs`。
+3. `zone-connections` 透過 `fromZoneId` 與 `toZoneId` 判斷旅遊圈之間的接續等級。
+4. `rescue-rules` 根據使用者情境、目前旅遊圈與目標旅遊圈，決定輸出分級建議。
+5. 每筆資料都必須可追溯到 `sourceDocs`。
 
 ## 4. `rescue-zones` 欄位設計
 
@@ -187,7 +210,45 @@
 2. 渡輪、台鐵、客運、轉運站的時刻、方向與站牌不能猜。
 3. 若回收點牽涉跨縣市，前台結果必須先問今晚住哪裡或是否一定回高雄。
 
-## 7. `rescue-rules` 欄位設計
+## 7. `zone-connections` 欄位設計
+
+`zone-connections` 用來定義旅遊圈之間的接續關係。
+
+這是接續引擎核心表。沒有這張表，系統只能做單點備援；有這張表，才能處理使用者亂走、跳點、臨時改行程、前後顛倒或從某一區突然想接更遠景點的情境。
+
+第一版欄位：
+
+| 欄位 | 型別草案 | 用途 | 第一版規則 |
+|---|---|---|---|
+| `connectionId` | string | 接續關係唯一 ID | 建議用 `fromZoneId-toZoneId` 的穩定命名 |
+| `fromZoneId` | string | 目前旅遊圈 | 對應 `rescue-zones.zoneId` |
+| `toZoneId` | string | 目標旅遊圈 | 對應 `rescue-zones.zoneId` |
+| `connectionType` | string | 接續類型 | 例如 `same-area`、`mrt-mainline`、`harbor-transfer`、`cross-county`、`remote-return` |
+| `mainTransferHubs` | string[] | 中間交通主幹 | 放 `hubId`，不寫固定站牌、班距或末班 |
+| `recommendedLevel` | string | 推薦等級 | 只允許 `nearby-safe`、`possible-detour`、`not-recommended` |
+| `reason` | string | 判斷理由 | 短句說明為什麼順路、較繞或不建議 |
+| `warning` | string | 風險提醒 | 用於提醒天氣、體力、時間晚、跨縣市或交通不確定 |
+| `fallbackZoneIds` | string[] | 替代方向 | 當目標不建議時，可回收或替代的旅遊圈 |
+| `needsReview` | object | 未確認項目 | 涉及交通主幹、銜接方向或官方資料時必填 |
+| `sourceDocs` | string[] | 來源文件 | 只存文件 id 或檔名 |
+
+`recommendedLevel` 只允許三種：
+
+1. `nearby-safe`：順路可玩。
+2. `possible-detour`：可玩但較繞。
+3. `not-recommended`：不建議但可自行決定。
+
+建模注意：
+
+1. `zone-connections` 不寫固定路線。
+2. `zone-connections` 不寫固定站牌。
+3. `zone-connections` 不寫固定班距。
+4. `zone-connections` 不寫固定末班。
+5. `mainTransferHubs` 只能放交通主幹候選，不得包裝成確定轉乘。
+6. 遠郊與跨縣市接回高雄時，通常應優先標 `possible-detour` 或 `not-recommended`，除非官方資料已確認且符合安全回收。
+7. 若 `recommendedLevel` 是 `not-recommended`，必須填 `warning` 與 `fallbackZoneIds`。
+
+## 8. `rescue-rules` 欄位設計
 
 `rescue-rules` 用來定義備援情境規則。它不是 AI 排程，也不是 MaaS。
 
@@ -217,11 +278,11 @@
 2. 未知地點備援規則不得假裝知道使用者所在景點。
 3. 天氣備援只能使用靜態風險或已接資料來源的保守判斷，第一版不承諾即時天氣準確。
 
-## 8. `rescue-result` 輸出格式
+## 9. `rescue-result` 輸出格式
 
 `rescue-result` 不做靜態資料表，不進第一批 JSON。
 
-它只是一個前台輸出格式，由 4 張資料表組合產生。
+它只是一個前台輸出格式，由 5 張資料表組合產生。
 
 輸出格式概念：
 
@@ -229,9 +290,9 @@
 |---|---|---|
 | 當前狀況判斷 | zone / place / rule | 說明使用者大概在哪一圈與主要風險 |
 | 風險提醒 | riskTags / rule | 聚焦天氣、體力、交通或跨縣市風險 |
-| 順路可玩 | `nearbySafeDirections` | 第一級建議 |
-| 可玩但較繞 | `possibleButDetourDirections` | 第二級建議 |
-| 不建議但可自行決定 | `notRecommendedDirections` | 第三級建議 |
+| 順路可玩 | zone / zone-connections | 第一級建議 |
+| 可玩但較繞 | zone / zone-connections | 第二級建議 |
+| 不建議但可自行決定 | zone / zone-connections | 第三級建議 |
 | 安全回收方向 | hub / zone | 不寫固定路線與班次 |
 | 官方資訊提醒 | rule / needsReview | 明確要求查官方公告或現場資訊 |
 | Needs review 標籤 | needsReview | 內部知道哪些資訊不可當承諾 |
@@ -256,7 +317,7 @@
 3. 涉及交通回收時，必須附官方資訊提醒。
 4. 不得輸出固定班次、固定末班、固定站牌或一定趕得上的承諾。
 
-## 9. 共用欄位規則
+## 10. 共用欄位規則
 
 共用命名規則：
 
@@ -281,7 +342,7 @@
 2. 不存長篇來源說明。
 3. P0 交通風險必須引用對應 P0 查證文件。
 
-## 10. Needs review 標記規則
+## 11. Needs review 標記規則
 
 `needsReview` 建議使用一致結構，未來轉 JSON 前再確認實際格式。
 
@@ -313,7 +374,7 @@
 3. 可提醒「請查官方資訊」。
 4. 不可描述「搭哪一路、哪一站、幾點末班」。
 
-## 11. 不可進入 JSON 的資料
+## 12. 不可進入 JSON 的資料
 
 以下資料在未經官方確認前，不得進入 JSON 作為確定值：
 
@@ -352,7 +413,7 @@
 15. `officialInfoReminder`
 16. `needsReviewLabels`
 
-## 12. 第一版資料建模邊界
+## 13. 第一版資料建模邊界
 
 第一版只做：
 
@@ -381,26 +442,28 @@
 
 第一版資料模型應支援未來擴充，但不得提前把未驗證資料放成確定欄位。
 
-## 13. 未來轉 JSON 前檢查清單
+## 14. 未來轉 JSON 前檢查清單
 
 轉 JSON 前必須確認：
 
-1. 是否只建立 `rescue-zones`、`rescue-places`、`rescue-hubs`、`rescue-rules` 四張資料表。
+1. 是否只建立 `rescue-zones`、`rescue-places`、`rescue-hubs`、`zone-connections`、`rescue-rules` 五張資料表。
 2. 是否沒有建立 `rescue-result` 靜態資料表。
 3. 每個 `zoneId` 是否唯一且穩定。
 4. 每個 `placeId` 是否唯一且對應正確 `zoneId`。
 5. 每個 `hubId` 是否唯一且可被 `rescue-zones` 或 `rescue-places` 引用。
-6. 每個 `sourceDocs` 是否對應 repo 內實際文件。
-7. P0 項目是否都保留 Needs review。
-8. 是否沒有寫入固定路線。
-9. 是否沒有寫入固定站牌。
-10. 是否沒有寫入固定班距。
-11. 是否沒有寫入固定末班。
-12. 是否沒有寫入現在一定有車或一定有船。
-13. 是否沒有寫入一定趕得上。
-14. 是否沒有把遠郊或跨縣市方向包裝成高雄市區短線。
-15. 是否每個高風險交通結果都附官方資訊提醒。
-16. 是否保留「不要害旅人越走越遠」。
+6. 每個 `connectionId` 是否唯一且可連回 `fromZoneId` 與 `toZoneId`。
+7. 每個 `recommendedLevel` 是否只使用 `nearby-safe`、`possible-detour`、`not-recommended`。
+8. 每個 `sourceDocs` 是否對應 repo 內實際文件。
+9. P0 項目是否都保留 Needs review。
+10. 是否沒有寫入固定路線。
+11. 是否沒有寫入固定站牌。
+12. 是否沒有寫入固定班距。
+13. 是否沒有寫入固定末班。
+14. 是否沒有寫入現在一定有車或一定有船。
+15. 是否沒有寫入一定趕得上。
+16. 是否沒有把遠郊或跨縣市方向包裝成高雄市區順路短線。
+17. 是否每個高風險交通結果都附官方資訊提醒。
+18. 是否保留「不要害旅人越走越遠」。
 
 轉 JSON 前建議由王王與阿梟檢查：
 
@@ -410,17 +473,18 @@
 4. 是否沒有新增即時 API 或定位。
 5. 是否沒有新增前台假功能。
 
-## 14. 王王結論
+## 15. 王王結論
 
 備援模式第一版可以進入資料建模，但第一批 JSON 必須瘦。
 
 王王判斷：
 
-1. 第一批 JSON 只需要 `rescue-zones`、`rescue-places`、`rescue-hubs`、`rescue-rules`。
-2. `rescue-result` 不做靜態資料表，只作為前台輸出格式。
-3. `riskTags` 統一收斂天氣、體力、交通與資訊風險。
-4. place 預設跟 zone 的 `safeRecoveryHubs`，只有例外才用 `overrideRecoveryHubs`。
-5. `sourceDocs` 只存文件 id 或檔名，不存長篇來源說明。
+1. 第一批 JSON 需要 `rescue-zones`、`rescue-places`、`rescue-hubs`、`zone-connections`、`rescue-rules`。
+2. `zone-connections` 是接續引擎核心表，負責判斷 currentZone 到 targetZone 是否順路、較繞或不建議。
+3. `rescue-result` 不做靜態資料表，只作為前台輸出格式。
+4. `riskTags` 統一收斂天氣、體力、交通與資訊風險。
+5. place 預設跟 zone 的 `safeRecoveryHubs`，只有例外才用 `overrideRecoveryHubs`。
+6. `sourceDocs` 只存文件 id 或檔名，不存長篇來源說明。
 
 這份資料模型草案可以作為下一階段 Markdown-to-JSON 的討論基礎。
 
