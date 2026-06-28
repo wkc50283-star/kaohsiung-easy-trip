@@ -2,16 +2,16 @@
 
 本文件整理「一路玩高雄 / 高雄不開車自由行助手」備援模式第一版的資料模型草案。
 
-本文件不是 JSON、不是功能施工、不是 API 設計、不是即時定位設計。它只用來把已完成的備援模式規格、資料審核表、Needs review 優先清單與 P0 官方查證結果，整理成未來可轉成 JSON 的資料結構。
+本文件不是 JSON、不是功能施工、不是 API 設計、不是即時定位設計。它只用來把備援模式研究資料收斂成未來可轉 JSON 的資料結構。
 
 ## 1. 文件目的
 
 本文件目的：
 
-1. 定義備援模式第一版未來可用的資料模型。
-2. 把旅遊圈、辨識點、交通回收點、備援規則與輸出結果分開。
-3. 保留「不要害旅人越走越遠」作為資料建模最高原則。
-4. 明確區分第一版可以建模的安全資料與不可進入 JSON 的高風險資料。
+1. 定義備援模式第一版最小資料模型。
+2. 把第一批 JSON 收斂成 4 張資料表。
+3. 明確排除第一版用不到、重複、容易誤導交通判斷或會讓 JSON 過肥的欄位。
+4. 保留「不要害旅人越走越遠」作為資料建模最高原則。
 5. 建立 Needs review 標記規則，避免未確認交通資訊被包裝成確定建議。
 
 核心原則：
@@ -33,17 +33,22 @@
 3. 用「官方資訊優先」取代「確定班次」。
 4. 用「Needs review」保留尚未確認的交通細節。
 5. 用「分級建議」避免把旅人推往更遠、更危險或更不確定的方向。
+6. 第一版用不到的欄位先刪除。
+7. 不能直接產生前台結果的欄位先刪除。
+8. 重複表達的欄位合併。
+9. 會誘導 Codex 猜交通資訊的欄位刪除。
+10. 會讓 JSON 太肥的欄位刪除。
 
 第一版允許建模：
 
 1. 旅遊圈名稱與圈類型。
-2. 代表地點與辨識點。
+2. 核心辨識點。
 3. 安全回收點候選。
 4. 順路可玩方向。
 5. 可玩但較繞方向。
 6. 不建議硬接方向。
-7. 天氣、體力、交通風險。
-8. 官方資訊提醒文案。
+7. 天氣、體力、交通風險標籤。
+8. 保守提醒文案。
 9. Needs review 標記與來源文件。
 
 第一版不得建模成確定值：
@@ -53,46 +58,60 @@
 3. 固定班距。
 4. 固定末班。
 5. 現在一定有車。
-6. 一定趕得上。
-7. 即時營運狀態。
-8. 未驗證店家或商家排名。
+6. 現在一定有船。
+7. 一定趕得上。
+8. 即時營運狀態。
+9. 未驗證店家或商家排名。
 
 ## 3. 第一版資料模型總覽
 
-| 資料模型 | 用途 | 第一版狀態 |
+第一批 JSON 最少只需要 4 張資料表：
+
+| 資料表 | 用途 | 第一版定位 |
 |---|---|---|
-| `rescue-zones` | 定義旅遊圈與回收方向，供系統先判斷使用者在哪一圈 | 可轉 JSON 前需人工確認欄位 |
-| `rescue-places` | 定義可辨識地點與其所屬旅遊圈 | 第一版可放核心辨識點，不放未驗證店家 |
-| `rescue-hubs` | 定義交通回收點與官方資訊需求 | 只放回收點與方向，不放班次承諾 |
-| `rescue-rules` | 定義位置、時間、天氣、體力、心情、跨縣市與未知地點規則 | 可做靜態規則，交通細節標 Needs review |
-| `rescue-result` | 定義前台輸出結果結構 | 只輸出保守分級建議與官方資訊提醒 |
+| `rescue-zones` | 定義旅遊圈、回收點與三種分級方向 | 核心表 |
+| `rescue-places` | 定義備援辨識點與所屬旅遊圈 | 輔助辨識表 |
+| `rescue-hubs` | 定義交通回收點與回收方向 | 安全回收表 |
+| `rescue-rules` | 定義備援情境、必問問題與保守提醒 | 判斷規則表 |
+
+`rescue-result` 不做靜態資料表。
+
+`rescue-result` 只作為前台輸出格式，由 `rescue-zones`、`rescue-places`、`rescue-hubs` 與 `rescue-rules` 組合產生。
 
 資料關係：
 
 1. `rescue-places` 透過 `zoneId` 連到 `rescue-zones`。
 2. `rescue-zones` 透過 `safeRecoveryHubs` 連到 `rescue-hubs`。
-3. `rescue-rules` 根據使用者狀態與旅遊圈，產生 `rescue-result`。
-4. 每個模型都必須可追溯到 `sourceDocs`。
+3. `rescue-rules` 根據使用者情境與旅遊圈，決定輸出分級建議。
+4. 每筆資料都必須可追溯到 `sourceDocs`。
 
 ## 4. `rescue-zones` 欄位設計
 
 `rescue-zones` 用來定義旅遊圈。它不是景點清單，而是備援模式判斷「使用者現在大概在哪一圈，應該收斂還是繼續玩」的基礎資料。
+
+第一版欄位：
 
 | 欄位 | 型別草案 | 用途 | 第一版規則 |
 |---|---|---|---|
 | `zoneId` | string | 旅遊圈唯一 ID | 使用穩定英文 kebab-case，例如 `cijin-gushan` |
 | `zoneName` | string | 旅遊圈名稱 | 使用前台可理解名稱，例如「旗津／鼓山渡輪」 |
 | `zoneType` | string | 圈類型 | 例如 `urban-core`、`harbor`、`suburban`、`remote`、`cross-county` |
-| `representativePlaces` | string[] | 代表地點 | 只放已知辨識點，不放未驗證店家 |
-| `suitableUseCases` | string[] | 適合玩法 | 例如短停留、港邊散步、雨天收斂、回程前收斂 |
 | `safeRecoveryHubs` | string[] | 安全回收點 | 放 `hubId`，不寫固定路線與班次 |
-| `nearbySafeDirections` | string[] | 順路可玩方向 | 以方向描述，不寫精準轉乘 |
-| `possibleButDetourDirections` | string[] | 可玩但較繞方向 | 必須提醒交通較繞或需先回主幹 |
-| `notRecommendedDirections` | string[] | 不建議硬接方向 | 用於避免越走越遠 |
-| `weatherRisks` | string[] | 天氣風險 | 雨天、風大、熱季中午、颱風、豪雨等 |
-| `trafficRisks` | string[] | 交通風險 | 遠郊、跨縣市、渡輪、客運、台鐵銜接等 |
-| `needsReview` | object | 未確認項目 | 以陣列列出欄位、原因與需查來源 |
-| `sourceDocs` | string[] | 來源文件 | 連到本 repo 的規格或查證文件名稱 |
+| `nearbySafeDirections` | string[] | 順路可玩方向 | 產生「順路可玩」結果 |
+| `possibleButDetourDirections` | string[] | 可玩但較繞方向 | 產生「可玩但較繞」結果 |
+| `notRecommendedDirections` | string[] | 不建議硬接方向 | 產生「不建議但可自行決定」結果 |
+| `riskTags` | string[] | 風險標籤 | 合併天氣、交通、體力與資訊風險 |
+| `needsReview` | object | 未確認項目 | 交通細節、官方來源與高風險承諾必須標記 |
+| `sourceDocs` | string[] | 來源文件 | 只存文件 id 或檔名，不存長篇來源說明 |
+
+本表移除欄位：
+
+| 移除欄位 | 移除原因 |
+|---|---|
+| `representativePlaces` | 可由 `rescue-places` 反查，避免重複存一份 |
+| `suitableUseCases` | 太泛，容易變成標籤牆，不能直接保護旅人安全 |
+| `weatherRisks` | 合併為 `riskTags` |
+| `trafficRisks` | 合併為 `riskTags` |
 
 建模注意：
 
@@ -104,33 +123,45 @@
 
 `rescue-places` 用來定義備援模式可辨識的地點。它不是前台景點推薦榜，也不是餐廳資料庫。
 
+第一版欄位：
+
 | 欄位 | 型別草案 | 用途 | 第一版規則 |
 |---|---|---|---|
 | `placeId` | string | 地點唯一 ID | 使用穩定英文 kebab-case |
 | `placeName` | string | 地點名稱 | 使用使用者可辨識名稱 |
-| `publicVisible` | boolean | 是否前台公開 | 可做內部辨識但不一定公開 |
 | `zoneId` | string | 所屬旅遊圈 | 必須對應 `rescue-zones.zoneId` |
 | `placeType` | string | 地點類型 | 例如 `station`、`market`、`harbor`、`mall`、`transfer`、`district` |
-| `suitableUseCases` | string[] | 適合玩法 | 例如避雨、回收、短停留、吃飯、回程前 |
-| `weatherRisk` | string[] | 天氣風險 | 不寫即時天氣，只寫靜態風險 |
-| `energyRisk` | string[] | 體力風險 | 拖行李、長輩小孩、步行多、曝曬等 |
-| `trafficRisk` | string[] | 交通風險 | 渡輪、遠郊、跨縣市、轉乘不確定等 |
-| `safeRecoveryHubs` | string[] | 安全回收點 | 放 `hubId`，不寫詳細站牌與班次 |
-| `nearbySafeDirections` | string[] | 順路可玩方向 | 只放方向，不承諾最短路線 |
-| `possibleButDetourDirections` | string[] | 可玩但較繞方向 | 必須搭配保守提醒 |
-| `notRecommendedDirections` | string[] | 不建議硬接方向 | 避免使用者越走越遠 |
+| `riskTags` | string[] | 風險標籤 | 合併天氣、體力、交通與資訊風險 |
+| `overrideRecoveryHubs` | string[] | 例外回收點 | 預設跟 zone 的 `safeRecoveryHubs`，只有例外才填 |
 | `needsReview` | object | 未確認項目 | 站牌、動線、班距、末班等需官方確認 |
-| `sourceDocs` | string[] | 來源文件 | 指向 P0 或資料審核文件 |
+| `sourceDocs` | string[] | 來源文件 | 只存文件 id 或檔名 |
+
+本表移除欄位：
+
+| 移除欄位 | 移除原因 |
+|---|---|
+| `publicVisible` | 第一版不做複雜前後台資料分流 |
+| `suitableUseCases` | 和方向、風險與規則重複，先刪 |
+| `weatherRisk` | 合併為 `riskTags` |
+| `energyRisk` | 合併為 `riskTags` |
+| `trafficRisk` | 合併為 `riskTags` |
+| `safeRecoveryHubs` | 預設跟 zone 的 `safeRecoveryHubs`，只保留例外欄位 `overrideRecoveryHubs` |
+| `nearbySafeDirections` | 由 zone 層級處理，避免每個 place 重複塞方向 |
+| `possibleButDetourDirections` | 由 zone 層級處理 |
+| `notRecommendedDirections` | 由 zone 層級處理 |
 
 建模注意：
 
-1. `publicVisible: false` 可用於內部辨識點，例如轉運站或交通主幹候選。
-2. 不得放未驗證餐廳、未驗證店家或店家排名。
-3. 未知地點不得硬塞成已知景點；只能進入未知地點備援規則。
+1. place 預設跟 zone 的 `safeRecoveryHubs`。
+2. 只有地點回收點和所屬旅遊圈不同時，才填 `overrideRecoveryHubs`。
+3. 不得放未驗證餐廳、未驗證店家或店家排名。
+4. 未知地點不得硬塞成已知景點；只能進入未知地點備援規則。
 
 ## 6. `rescue-hubs` 欄位設計
 
-`rescue-hubs` 用來定義交通回收點。第一版只描述「回收方向」與「需要查官方資訊」，不描述確定班次。
+`rescue-hubs` 用來定義交通回收點。第一版只描述「回收方向」，不描述確定班次。
+
+第一版欄位：
 
 | 欄位 | 型別草案 | 用途 | 第一版規則 |
 |---|---|---|---|
@@ -139,21 +170,28 @@
 | `hubType` | string | 回收點類型 | 例如 `rail`、`mrt`、`ferry`、`bus-terminal`、`transfer` |
 | `relatedZones` | string[] | 相關旅遊圈 | 對應 `rescue-zones.zoneId` |
 | `recoveryDirection` | string | 回收方向 | 例如「先回高雄車站或左營方向」 |
-| `officialInfoRequired` | string[] | 需要官方確認資料 | 路線、站牌、方向、班距、末班、營運公告等 |
-| `allowedDisplayText` | string[] | 允許前台顯示文字 | 保守方向、查官方資訊、不要再加遠點 |
-| `forbiddenDisplayText` | string[] | 禁止前台顯示文字 | 一定有車、一定趕得上、固定末班等 |
 | `needsReview` | object | 未確認項目 | 高風險交通資料必填 |
-| `sourceDocs` | string[] | 來源文件 | 指向 P0 查證文件或資料來源說明 |
+| `sourceDocs` | string[] | 來源文件 | 只存文件 id 或檔名 |
+
+本表移除欄位：
+
+| 移除欄位 | 移除原因 |
+|---|---|
+| `officialInfoRequired` | 和 `needsReview` 重複，且容易誘導塞路線、站牌、末班等交通細節 |
+| `allowedDisplayText` | 太像文案庫，會讓 JSON 肥大 |
+| `forbiddenDisplayText` | 和 Needs review、不可寫死規則重複，適合留在文件，不適合每筆 JSON |
 
 建模注意：
 
 1. P0 回收點可以納入第一版，但必須保留官方資訊提醒。
 2. 渡輪、台鐵、客運、轉運站的時刻、方向與站牌不能猜。
-3. 若回收點牽涉跨縣市，`allowedDisplayText` 必須包含「先確認今晚住哪裡或是否一定回高雄」。
+3. 若回收點牽涉跨縣市，前台結果必須先問今晚住哪裡或是否一定回高雄。
 
 ## 7. `rescue-rules` 欄位設計
 
 `rescue-rules` 用來定義備援情境規則。它不是 AI 排程，也不是 MaaS。
+
+第一版欄位：
 
 | 欄位 | 型別草案 | 用途 | 第一版規則 |
 |---|---|---|---|
@@ -162,11 +200,16 @@
 | `triggerCondition` | string | 觸發條件 | 使用保守條件描述，不寫精準定位 |
 | `requiredUserQuestion` | string[] | 必問問題 | 例如剩餘時間、體力、是否要回高雄、今晚住哪裡 |
 | `priorityLogic` | string[] | 優先判斷順序 | 先安全回收，再判斷是否繼續玩 |
-| `allowedOutput` | string[] | 允許輸出 | 分級方向、保守提醒、官方資訊優先 |
-| `forbiddenOutput` | string[] | 禁止輸出 | 固定路線、固定站牌、末班、一定趕得上 |
 | `conservativeReminder` | string | 保守提醒文案 | 用於結果卡或風險提醒 |
 | `needsReview` | object | 未確認項目 | 涉及交通細節一律標記 |
-| `sourceDocs` | string[] | 來源文件 | 指向規格、審核表或 P0 文件 |
+| `sourceDocs` | string[] | 來源文件 | 只存文件 id 或檔名 |
+
+本表移除欄位：
+
+| 移除欄位 | 移除原因 |
+|---|---|
+| `allowedOutput` | 太抽象，和三級建議結果重複 |
+| `forbiddenOutput` | 太抽象，和 Needs review、不可寫死規則重複 |
 
 建模注意：
 
@@ -174,20 +217,37 @@
 2. 未知地點備援規則不得假裝知道使用者所在景點。
 3. 天氣備援只能使用靜態風險或已接資料來源的保守判斷，第一版不承諾即時天氣準確。
 
-## 8. `rescue-result` 欄位設計
+## 8. `rescue-result` 輸出格式
 
-`rescue-result` 是前台結果的輸出結構草案。第一版輸出應短、清楚、保守，不塞完整交通教學。
+`rescue-result` 不做靜態資料表，不進第一批 JSON。
 
-| 欄位 | 型別草案 | 用途 | 第一版規則 |
-|---|---|---|---|
-| `currentAssessment` | string | 當前狀況判斷 | 說明使用者大概在哪一圈與主要風險 |
-| `riskReminder` | string | 風險提醒 | 聚焦天氣、體力、交通或跨縣市風險 |
-| `nearbySafeOptions` | object[] | 順路可玩 | 每個項目只寫方向與短理由 |
-| `possibleButDetourOptions` | object[] | 可玩但較繞 | 必須清楚標示較繞原因 |
-| `notRecommendedButUserCanDecide` | object[] | 不建議但可自行決定 | 必須說明不建議原因 |
-| `safeRecoveryDirection` | string | 安全回收方向 | 不寫固定路線與班次 |
-| `officialInfoReminder` | string | 官方資訊提醒 | 明確要求查官方公告或現場資訊 |
-| `needsReviewLabels` | string[] | Needs review 標籤 | 讓內部知道哪些資訊不可當承諾 |
+它只是一個前台輸出格式，由 4 張資料表組合產生。
+
+輸出格式概念：
+
+| 輸出區塊 | 來源 | 用途 |
+|---|---|---|
+| 當前狀況判斷 | zone / place / rule | 說明使用者大概在哪一圈與主要風險 |
+| 風險提醒 | riskTags / rule | 聚焦天氣、體力、交通或跨縣市風險 |
+| 順路可玩 | `nearbySafeDirections` | 第一級建議 |
+| 可玩但較繞 | `possibleButDetourDirections` | 第二級建議 |
+| 不建議但可自行決定 | `notRecommendedDirections` | 第三級建議 |
+| 安全回收方向 | hub / zone | 不寫固定路線與班次 |
+| 官方資訊提醒 | rule / needsReview | 明確要求查官方公告或現場資訊 |
+| Needs review 標籤 | needsReview | 內部知道哪些資訊不可當承諾 |
+
+不進第一批 JSON 的原欄位：
+
+1. `currentAssessment`
+2. `riskReminder`
+3. `nearbySafeOptions`
+4. `possibleButDetourOptions`
+5. `notRecommendedButUserCanDecide`
+6. `safeRecoveryDirection`
+7. `officialInfoReminder`
+8. `needsReviewLabels`
+
+這些都是 runtime 結果，不是靜態資料。
 
 輸出原則：
 
@@ -203,10 +263,10 @@
 1. ID 欄位使用英文 kebab-case。
 2. 顯示名稱使用繁體中文。
 3. 方向類欄位使用短句，不寫長篇文章。
-4. 風險類欄位使用陣列，方便未來前台挑選顯示。
-5. `sourceDocs` 必須列出 repo 內文件名稱，不放外部網址作為唯一來源。
+4. `riskTags` 統一處理天氣、體力、交通與資訊風險。
+5. `sourceDocs` 只存文件 id 或檔名，不存長篇來源說明。
 
-共用風險分類建議：
+`riskTags` 建議值草案：
 
 | 風險類型 | 可用值草案 |
 |---|---|
@@ -215,13 +275,11 @@
 | 交通 | `ferry`、`rail`、`bus`、`remote`、`cross-county`、`transfer-unclear` |
 | 資訊 | `schedule-unverified`、`last-service-unverified`、`official-notice-required` |
 
-共用來源文件規則：
+`sourceDocs` 規則：
 
-1. 規格來源可引用 `rescue-mode-spec-v0.1.md`。
-2. 資料審核來源可引用 `rescue-mode-data-review-v0.1.md`。
-3. 優先清單可引用 `rescue-mode-needs-review-priority-v0.1.md`。
-4. P0 施工摘要可引用 `rescue-mode-p0-summary-v0.1.md`。
-5. P0 交通風險必須引用對應 P0 查證文件。
+1. 只存 repo 內文件 id 或檔名。
+2. 不存長篇來源說明。
+3. P0 交通風險必須引用對應 P0 查證文件。
 
 ## 10. Needs review 標記規則
 
@@ -275,6 +333,25 @@
 14. 把小琉球船班包裝成東港回高雄路線。
 15. 把遠郊或跨縣市地點包裝成高雄市區順路短線。
 
+以下欄位不進第一批 JSON：
+
+1. `representativePlaces`
+2. `suitableUseCases`
+3. `publicVisible`
+4. `officialInfoRequired`
+5. `allowedDisplayText`
+6. `forbiddenDisplayText`
+7. `allowedOutput`
+8. `forbiddenOutput`
+9. `currentAssessment`
+10. `riskReminder`
+11. `nearbySafeOptions`
+12. `possibleButDetourOptions`
+13. `notRecommendedButUserCanDecide`
+14. `safeRecoveryDirection`
+15. `officialInfoReminder`
+16. `needsReviewLabels`
+
 ## 12. 第一版資料建模邊界
 
 第一版只做：
@@ -283,8 +360,8 @@
 2. 靜態辨識點。
 3. 安全回收點候選。
 4. 順路可玩、可玩但較繞、不建議但可自行決定。
-5. 靜態風險提醒。
-6. 官方資訊優先文案。
+5. 靜態風險標籤。
+6. 保守提醒文案。
 7. Needs review 標記。
 8. 來源文件追溯。
 
@@ -300,6 +377,7 @@
 8. 完整 MaaS。
 9. AI 自動排完整行程。
 10. 未驗證店家推薦。
+11. `rescue-result` 靜態資料表。
 
 第一版資料模型應支援未來擴充，但不得提前把未驗證資料放成確定欄位。
 
@@ -307,21 +385,22 @@
 
 轉 JSON 前必須確認：
 
-1. 每個 `zoneId` 是否唯一且穩定。
-2. 每個 `placeId` 是否唯一且對應正確 `zoneId`。
-3. 每個 `hubId` 是否唯一且可被 `rescue-zones` 或 `rescue-places` 引用。
-4. 每個 `sourceDocs` 是否對應 repo 內實際文件。
-5. P0 項目是否都保留 Needs review。
-6. 是否沒有寫入固定路線。
-7. 是否沒有寫入固定站牌。
-8. 是否沒有寫入固定班距。
-9. 是否沒有寫入固定末班。
-10. 是否沒有寫入現在一定有車或一定有船。
-11. 是否沒有寫入一定趕得上。
-12. 是否沒有把遠郊或跨縣市方向包裝成高雄市區短線。
-13. 是否每個結果都可輸出三級建議。
-14. 是否每個高風險交通結果都附官方資訊提醒。
-15. 是否保留「不要害旅人越走越遠」。
+1. 是否只建立 `rescue-zones`、`rescue-places`、`rescue-hubs`、`rescue-rules` 四張資料表。
+2. 是否沒有建立 `rescue-result` 靜態資料表。
+3. 每個 `zoneId` 是否唯一且穩定。
+4. 每個 `placeId` 是否唯一且對應正確 `zoneId`。
+5. 每個 `hubId` 是否唯一且可被 `rescue-zones` 或 `rescue-places` 引用。
+6. 每個 `sourceDocs` 是否對應 repo 內實際文件。
+7. P0 項目是否都保留 Needs review。
+8. 是否沒有寫入固定路線。
+9. 是否沒有寫入固定站牌。
+10. 是否沒有寫入固定班距。
+11. 是否沒有寫入固定末班。
+12. 是否沒有寫入現在一定有車或一定有船。
+13. 是否沒有寫入一定趕得上。
+14. 是否沒有把遠郊或跨縣市方向包裝成高雄市區短線。
+15. 是否每個高風險交通結果都附官方資訊提醒。
+16. 是否保留「不要害旅人越走越遠」。
 
 轉 JSON 前建議由王王與阿梟檢查：
 
@@ -333,15 +412,15 @@
 
 ## 14. 王王結論
 
-備援模式第一版可以進入資料建模討論，但只能做保守型資料模型。
+備援模式第一版可以進入資料建模，但第一批 JSON 必須瘦。
 
 王王判斷：
 
-1. `rescue-zones` 負責旅遊圈與方向收斂。
-2. `rescue-places` 負責辨識點，不負責推薦店家。
-3. `rescue-hubs` 負責交通回收點，不負責班次承諾。
-4. `rescue-rules` 負責保守判斷，不負責完整 AI 排程。
-5. `rescue-result` 負責把結果分級說清楚，不負責保證最短路線或一定趕得上。
+1. 第一批 JSON 只需要 `rescue-zones`、`rescue-places`、`rescue-hubs`、`rescue-rules`。
+2. `rescue-result` 不做靜態資料表，只作為前台輸出格式。
+3. `riskTags` 統一收斂天氣、體力、交通與資訊風險。
+4. place 預設跟 zone 的 `safeRecoveryHubs`，只有例外才用 `overrideRecoveryHubs`。
+5. `sourceDocs` 只存文件 id 或檔名，不存長篇來源說明。
 
 這份資料模型草案可以作為下一階段 Markdown-to-JSON 的討論基礎。
 
