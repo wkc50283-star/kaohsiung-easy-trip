@@ -311,6 +311,9 @@
 
       const needsReview = transitOption.needsReview === true || transitOption.needsReview?.hasNeedsReview === true;
       const reviewItems = transitOption.needsReview?.items || [];
+      const reviewText = reviewItems.length > 0
+        ? renderList(reviewItems)
+        : "請依官方班次、實際上下車站牌、方向與末班資訊確認。";
 
       return `
         <div class="result-card transit">
@@ -343,7 +346,7 @@
             <div class="row">
               <strong>needsReview</strong>
               <span>${needsReview ? "需查官方資訊" : "目前無 Needs review 標記"}</span>
-              ${needsReview ? `<span>${renderList(reviewItems)}</span>` : ""}
+              ${needsReview ? `<span>${reviewText}</span>` : ""}
             </div>
             <div class="row">
               <strong>sourceDocs</strong>
