@@ -122,5 +122,45 @@
     "sourceDocs": [
       "rescue-mode-data-model-draft-v0.1.md"
     ]
+  },
+  {
+    "ruleId": "rule-qishan-meinong-remote-recovery",
+    "scenario": "遠郊備援",
+    "triggerCondition": "使用者目前或目標旅遊圈為旗山／美濃圈。",
+    "requiredUserQuestion": [
+      "你現在是在旗山、美濃，還是準備從市區前往旗山／美濃？",
+      "你今晚住哪裡？",
+      "你是否一定要回高雄市區或車站？",
+      "你還想繼續玩，還是想收回行程？"
+    ],
+    "priorityLogic": [
+      "先判斷是否需要回旗山主要交通點或高雄市區主幹",
+      "若時間晚、天氣不好、拖行李或體力不足，優先回收",
+      "不要把旗山／美濃硬接西子灣、鼓山、旗津或渡輪行程",
+      "所有客運路線、站牌、方向、班距與末班都標 Needs review"
+    ],
+    "conservativeReminder": "旗山／美濃屬高雄遠郊文化圈。若時間晚、天氣不好、拖行李或體力不足，先不要再加景點，請優先回到旗山轉運站或旗山主要交通點，確認官方客運資訊後再移動。",
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
   }
 ]

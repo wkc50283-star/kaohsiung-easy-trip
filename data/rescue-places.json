@@ -227,5 +227,115 @@
       "rescue-mode-data-model-draft-v0.1.md",
       "rescue-mode-p0-cijin-ferry-review-v0.1.md"
     ]
+  },
+  {
+    "placeId": "place-qishan-old-street",
+    "placeName": "旗山老街",
+    "zoneId": "qishan-meinong",
+    "placeType": "old-street",
+    "riskTags": [
+      "remote",
+      "bus",
+      "heat",
+      "rain",
+      "schedule-unverified"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-meinong",
+    "placeName": "美濃",
+    "zoneId": "qishan-meinong",
+    "placeType": "district",
+    "riskTags": [
+      "remote",
+      "bus",
+      "transfer-unclear",
+      "heat",
+      "rain"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-qishan-transfer",
+    "placeName": "旗山轉運站或旗山主要交通點",
+    "zoneId": "qishan-meinong",
+    "placeType": "bus-transfer",
+    "riskTags": [
+      "remote",
+      "bus",
+      "transfer-unclear",
+      "schedule-unverified",
+      "last-service-unverified"
+    ],
+    "overrideRecoveryHubs": [
+      "hub-qishan-transfer"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
   }
 ]
