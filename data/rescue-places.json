@@ -1,0 +1,231 @@
+[
+  {
+    "placeId": "place-formosa-boulevard",
+    "placeName": "美麗島",
+    "zoneId": "formosa-kaohsiung-station",
+    "placeType": "mrt-transfer",
+    "riskTags": [
+      "transfer-mainline"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-kaohsiung-station",
+    "placeName": "高雄車站",
+    "zoneId": "formosa-kaohsiung-station",
+    "placeType": "rail-station",
+    "riskTags": [
+      "rail",
+      "transfer-mainline",
+      "luggage-friendly"
+    ],
+    "overrideRecoveryHubs": [
+      "hub-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-central-park-xinjuejiang",
+    "placeName": "中央公園／新堀江",
+    "zoneId": "formosa-kaohsiung-station",
+    "placeType": "shopping-district",
+    "riskTags": [
+      "urban-core",
+      "rain-backup"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-yanchengpu",
+    "placeName": "鹽埕",
+    "zoneId": "yancheng-pier2-kmc",
+    "placeType": "district",
+    "riskTags": [
+      "harbor",
+      "food",
+      "walkable"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-pier2",
+    "placeName": "駁二",
+    "zoneId": "yancheng-pier2-kmc",
+    "placeType": "harbor-attraction",
+    "riskTags": [
+      "harbor",
+      "outdoor-exposure",
+      "heat",
+      "rain"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-kaohsiung-music-center",
+    "placeName": "高流",
+    "zoneId": "yancheng-pier2-kmc",
+    "placeType": "harbor-attraction",
+    "riskTags": [
+      "harbor",
+      "outdoor-exposure",
+      "heat",
+      "rain"
+    ],
+    "overrideRecoveryHubs": [],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-sizihwan",
+    "placeName": "西子灣",
+    "zoneId": "sizihwan-gushan-cijin",
+    "placeType": "harbor-attraction",
+    "riskTags": [
+      "harbor",
+      "outdoor-exposure",
+      "heat",
+      "rain",
+      "wind"
+    ],
+    "overrideRecoveryHubs": [
+      "hub-sizihwan"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-gushan-ferry",
+    "placeName": "鼓山渡輪",
+    "zoneId": "sizihwan-gushan-cijin",
+    "placeType": "ferry-terminal",
+    "riskTags": [
+      "ferry",
+      "rain",
+      "wind",
+      "schedule-unverified"
+    ],
+    "overrideRecoveryHubs": [
+      "hub-gushan-ferry"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "渡輪船班",
+        "渡輪班距",
+        "渡輪末班",
+        "渡輪即時營運狀態"
+      ],
+      "reason": "渡輪營運可能受天候、現場調度與公告影響。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "placeId": "place-cijin",
+    "placeName": "旗津",
+    "zoneId": "sizihwan-gushan-cijin",
+    "placeType": "harbor-ferry-area",
+    "riskTags": [
+      "ferry",
+      "rain",
+      "wind",
+      "heat",
+      "outdoor-exposure",
+      "luggage"
+    ],
+    "overrideRecoveryHubs": [
+      "hub-gushan-ferry"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗津回鼓山渡輪船班",
+        "旗津回鼓山渡輪班距",
+        "旗津回鼓山渡輪末班",
+        "停航或營運異動"
+      ],
+      "reason": "旗津回收高度依賴渡輪與現場公告，第一版只能給方向。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  }
+]
