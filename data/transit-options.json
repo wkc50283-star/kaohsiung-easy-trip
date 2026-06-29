@@ -1,0 +1,44 @@
+[
+  {
+    "transitOptionId": "formosa-kaohsiung-station-to-qishan-meinong-regional-bus",
+    "fromZoneId": "formosa-kaohsiung-station",
+    "toZoneId": "qishan-meinong",
+    "mode": "regional-bus",
+    "routeHint": "往旗山／美濃方向客運",
+    "boardingAreaHint": "高雄車站生活圈主要交通點",
+    "alightingAreaHint": "旗山／美濃主要交通回收點",
+    "officialSourceName": "高雄客運／高雄市公車動態資訊系統",
+    "officialSourceUrl": "https://www.ksbus.com.tw/",
+    "requiresLiveCheck": true,
+    "requiresScheduleCheck": true,
+    "lastDepartureRisk": true,
+    "returnTripCheckRequired": true,
+    "needsReview": true,
+    "warning": "出發前與回程前都要查官方班次與末班；不要手寫死路線、站牌、班距或末班，也不得承諾車輛營運或銜接成功。",
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "transitOptionId": "qishan-meinong-to-formosa-kaohsiung-station-regional-bus",
+    "fromZoneId": "qishan-meinong",
+    "toZoneId": "formosa-kaohsiung-station",
+    "mode": "regional-bus",
+    "routeHint": "往高雄車站生活圈方向客運",
+    "boardingAreaHint": "旗山／美濃主要交通回收點",
+    "alightingAreaHint": "高雄車站生活圈主要交通點",
+    "officialSourceName": "高雄客運／高雄市公車動態資訊系統",
+    "officialSourceUrl": "https://www.ksbus.com.tw/",
+    "requiresLiveCheck": true,
+    "requiresScheduleCheck": true,
+    "lastDepartureRisk": true,
+    "returnTripCheckRequired": true,
+    "needsReview": true,
+    "warning": "出發前與回程前都要查官方班次與末班；不要手寫死路線、站牌、班距或末班，也不得承諾車輛營運或銜接成功。",
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  }
+]
