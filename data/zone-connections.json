@@ -197,5 +197,237 @@
       "rescue-mode-data-model-draft-v0.1.md",
       "rescue-mode-p0-cijin-ferry-review-v0.1.md"
     ]
+  },
+  {
+    "connectionId": "qishan-meinong-to-formosa-kaohsiung-station",
+    "fromZoneId": "qishan-meinong",
+    "toZoneId": "formosa-kaohsiung-station",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-formosa-boulevard"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "旗山／美濃圈與美麗島／高雄車站圈可接，但屬遠郊與市區或港邊之間的長距離接續，必須先確認官方客運資訊。",
+    "warning": "不要寫固定路線、站牌、班距或末班；時間晚、天氣不好、拖行李或體力不足時，優先回收。",
+    "fallbackZoneIds": [
+      "qishan-meinong"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "formosa-kaohsiung-station-to-qishan-meinong",
+    "fromZoneId": "formosa-kaohsiung-station",
+    "toZoneId": "qishan-meinong",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-formosa-boulevard"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "美麗島／高雄車站圈與旗山／美濃圈可接，但屬遠郊與市區或港邊之間的長距離接續，必須先確認官方客運資訊。",
+    "warning": "不要寫固定路線、站牌、班距或末班；時間晚、天氣不好、拖行李或體力不足時，優先回收。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "qishan-meinong-to-yancheng-pier2-kmc",
+    "fromZoneId": "qishan-meinong",
+    "toZoneId": "yancheng-pier2-kmc",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-yanchengpu"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "旗山／美濃圈與鹽埕／駁二／高流圈可接，但屬遠郊與市區或港邊之間的長距離接續，必須先確認官方客運資訊。",
+    "warning": "不要寫固定路線、站牌、班距或末班；時間晚、天氣不好、拖行李或體力不足時，優先回收。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "yancheng-pier2-kmc-to-qishan-meinong",
+    "fromZoneId": "yancheng-pier2-kmc",
+    "toZoneId": "qishan-meinong",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-yanchengpu"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "鹽埕／駁二／高流圈與旗山／美濃圈可接，但屬遠郊與市區或港邊之間的長距離接續，必須先確認官方客運資訊。",
+    "warning": "不要寫固定路線、站牌、班距或末班；時間晚、天氣不好、拖行李或體力不足時，優先回收。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "qishan-meinong-to-sizihwan-gushan-cijin",
+    "fromZoneId": "qishan-meinong",
+    "toZoneId": "sizihwan-gushan-cijin",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-sizihwan",
+      "hub-gushan-ferry"
+    ],
+    "recommendedLevel": "not-recommended",
+    "reason": "旗山／美濃圈接西子灣／鼓山／旗津圈會把遠郊、港邊、海邊或渡輪風險疊在一起，不適合臨時硬接。",
+    "warning": "不建議把旗山／美濃與西子灣／鼓山／旗津互相硬接；先回高雄市區主幹或旗山主要交通點收斂。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station",
+      "yancheng-pier2-kmc"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "sizihwan-gushan-cijin-to-qishan-meinong",
+    "fromZoneId": "sizihwan-gushan-cijin",
+    "toZoneId": "qishan-meinong",
+    "connectionType": "remote-regional-transfer",
+    "mainTransferHubs": [
+      "hub-qishan-transfer",
+      "hub-sizihwan",
+      "hub-gushan-ferry"
+    ],
+    "recommendedLevel": "not-recommended",
+    "reason": "西子灣／鼓山／旗津圈接旗山／美濃圈會把遠郊、港邊、海邊或渡輪風險疊在一起，不適合臨時硬接。",
+    "warning": "不建議把旗山／美濃與西子灣／鼓山／旗津互相硬接；先回高雄市區主幹或旗山主要交通點收斂。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station",
+      "yancheng-pier2-kmc"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
   }
 ]

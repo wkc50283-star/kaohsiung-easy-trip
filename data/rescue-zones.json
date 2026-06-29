@@ -125,5 +125,58 @@
       "rescue-mode-data-model-draft-v0.1.md",
       "rescue-mode-p0-cijin-ferry-review-v0.1.md"
     ]
+  },
+  {
+    "zoneId": "qishan-meinong",
+    "zoneName": "旗山／美濃圈",
+    "zoneType": "remote",
+    "safeRecoveryHubs": [
+      "hub-qishan-transfer"
+    ],
+    "nearbySafeDirections": [
+      "旗山老街周邊短線",
+      "美濃市區短線",
+      "旗山主要交通點回收"
+    ],
+    "possibleButDetourDirections": [
+      "美麗島／高雄車站圈",
+      "鹽埕／駁二／高流圈"
+    ],
+    "notRecommendedDirections": [
+      "西子灣／鼓山／旗津圈",
+      "雨天或時間晚再硬接海邊與渡輪行程",
+      "拖行李或體力不足時跨區補景點"
+    ],
+    "riskTags": [
+      "remote",
+      "bus",
+      "transfer-unclear",
+      "schedule-unverified",
+      "last-service-unverified",
+      "heat",
+      "rain"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗山／美濃回高雄官方路線",
+        "實際上下車站牌",
+        "上下車方向",
+        "班距",
+        "末班",
+        "是否一定可銜接高雄市區或住宿區"
+      ],
+      "reason": "旗山／美濃屬高雄遠郊文化圈，客運路線、站牌、方向、班距與末班都不可猜。",
+      "requiredSource": [
+        "高雄客運官方資訊",
+        "高雄市公車動態資訊系統",
+        "高雄市政府交通局官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-qishan-meinong-review-v0.1.md"
+    ]
   }
 ]
