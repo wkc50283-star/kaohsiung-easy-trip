@@ -170,6 +170,29 @@
       color: #92400e;
     }
 
+    .transit {
+      border-color: #b7d9df;
+      background: #f0fdfa;
+    }
+
+    .flag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .flag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      background: #dff6f3;
+      color: #0f766e;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 4px 10px;
+    }
+
     .error {
       border-color: #fecaca;
       background: #fff1f2;
@@ -188,7 +211,7 @@
     <header>
       <p class="eyebrow">內部測試頁</p>
       <h1>備援模式旅遊圈銜接測試</h1>
-      <p class="muted">只用來驗證 5 個 JSON 是否可被前台讀取與查詢。找不到資料時不猜路線，不顯示班距、末班、即時到站，也不承諾一定有車或一定趕得上。</p>
+      <p class="muted">只用來驗證 JSON 是否可被前台讀取與查詢。找不到資料時不猜路線，不顯示班距、末班、即時到站，也不承諾車輛營運或銜接成功。</p>
     </header>
 
     <section aria-labelledby="tester-title">
@@ -221,13 +244,15 @@
       places: "data/rescue-places.json",
       hubs: "data/rescue-hubs.json",
       connections: "data/zone-connections.json",
-      rules: "data/rescue-rules.json"
+      rules: "data/rescue-rules.json",
+      transitOptions: "data/transit-options.json"
     };
 
     const state = {
       zones: [],
       hubs: [],
       connections: [],
+      transitOptions: [],
       zoneById: new Map(),
       hubById: new Map()
     };
@@ -276,7 +301,82 @@
       return items.join("、");
     }
 
-    function renderConnection(connection) {
+    function renderTransitOption(transitOption) {
+      const flags = [
+        transitOption.requiresLiveCheck ? "需查即時或官方資訊" : "",
+        transitOption.requiresScheduleCheck ? "需查官方班次" : "",
+        transitOption.lastDepartureRisk ? "有末班風險" : "",
+        transitOption.returnTripCheckRequired ? "需先確認回程" : ""
+      ].filter(Boolean);
+
+      const needsReview = transitOption.needsReview === true || transitOption.needsReview?.hasNeedsReview === true;
+      const reviewItems = transitOption.needsReview?.items || [];
+
+      return `
+        <div class="result-card transit">
+          <h2>交通查詢提醒</h2>
+          <div class="grid">
+            <div class="row">
+              <strong>mode</strong>
+              <span>${transitOption.mode || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>routeHint</strong>
+              <span>${transitOption.routeHint || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>boardingAreaHint</strong>
+              <span>${transitOption.boardingAreaHint || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>alightingAreaHint</strong>
+              <span>${transitOption.alightingAreaHint || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>查詢狀態</strong>
+              <span class="flag-list">${flags.map((flag) => `<span class="flag">${flag}</span>`).join("") || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>warning</strong>
+              <span>${transitOption.warning || "無"}</span>
+            </div>
+            <div class="row">
+              <strong>needsReview</strong>
+              <span>${needsReview ? "需查官方資訊" : "目前無 Needs review 標記"}</span>
+              ${needsReview ? `<span>${renderList(reviewItems)}</span>` : ""}
+            </div>
+            <div class="row">
+              <strong>sourceDocs</strong>
+              <span>${renderList(transitOption.sourceDocs || [])}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderNoTransitOption() {
+      return `
+        <div class="result-card transit">
+          <h2>交通查詢提醒</h2>
+          <p>目前沒有這組交通查詢資料。</p>
+          <p class="muted">不猜路線、不猜班次、不猜末班。</p>
+        </div>
+      `;
+    }
+
+    function renderTransitSection(currentZone, targetZone) {
+      const transitOption = state.transitOptions.find((item) => (
+        item.fromZoneId === currentZone && item.toZoneId === targetZone
+      ));
+
+      if (!transitOption) {
+        return renderNoTransitOption();
+      }
+
+      return renderTransitOption(transitOption);
+    }
+
+    function renderConnection(connection, currentZone, targetZone) {
       const levelClass = {
         "nearby-safe": "",
         "possible-detour": "detour",
@@ -317,15 +417,17 @@
           <p>${needsReview ? "需查官方資訊" : "目前無 Needs review 標記"}</p>
           ${needsReview ? `<p>${renderList(reviewItems)}</p>` : ""}
         </div>
+        ${renderTransitSection(currentZone, targetZone)}
       `;
     }
 
-    function renderNoConnection() {
+    function renderNoConnection(currentZone, targetZone) {
       result.innerHTML = `
         <div class="result-card">
           <p>目前沒有這組旅遊圈銜接資料。</p>
-          <p class="muted">系統不會自動猜路線，也不會承諾一定有車或一定趕得上。</p>
+          <p class="muted">系統不會自動猜路線，也不會承諾車輛營運或銜接成功。</p>
         </div>
+        ${renderTransitSection(currentZone, targetZone)}
       `;
     }
 
@@ -347,11 +449,11 @@
       ));
 
       if (!connection) {
-        renderNoConnection();
+        renderNoConnection(currentZone, targetZone);
         return;
       }
 
-      renderConnection(connection);
+      renderConnection(connection, currentZone, targetZone);
     }
 
     async function init() {
@@ -360,6 +462,7 @@
         state.zones = data.zones;
         state.hubs = data.hubs;
         state.connections = data.connections;
+        state.transitOptions = data.transitOptions;
         state.zoneById = new Map(state.zones.map((zone) => [zone.zoneId, zone]));
         state.hubById = new Map(state.hubs.map((hub) => [hub.hubId, hub]));
 
