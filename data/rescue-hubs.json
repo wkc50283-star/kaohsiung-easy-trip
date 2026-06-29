@@ -1,0 +1,131 @@
+[
+  {
+    "hubId": "hub-formosa-boulevard",
+    "hubName": "美麗島站",
+    "hubType": "mrt-transfer",
+    "relatedZones": [
+      "formosa-kaohsiung-station"
+    ],
+    "recoveryDirection": "回到捷運紅線／橘線主幹，再判斷住宿、車站或下一個旅遊圈。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "hubId": "hub-kaohsiung-station",
+    "hubName": "高雄車站",
+    "hubType": "rail-station",
+    "relatedZones": [
+      "formosa-kaohsiung-station"
+    ],
+    "recoveryDirection": "回到高雄車站主幹，優先處理住宿、台鐵或市區轉乘。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "hubId": "hub-yanchengpu",
+    "hubName": "鹽埕埔站",
+    "hubType": "mrt",
+    "relatedZones": [
+      "yancheng-pier2-kmc"
+    ],
+    "recoveryDirection": "回到鹽埕埔站後，可收回美麗島／高雄車站方向，或縮短在港邊停留。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "hubId": "hub-pier2-light-rail",
+    "hubName": "駁二周邊輕軌站",
+    "hubType": "light-rail",
+    "relatedZones": [
+      "yancheng-pier2-kmc"
+    ],
+    "recoveryDirection": "回到駁二周邊輕軌主幹後，優先收斂到鹽埕、三多或美麗島方向。",
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "實際最近輕軌站",
+        "輕軌營運狀態",
+        "末班資訊"
+      ],
+      "reason": "第一版不寫固定站牌、班距或末班，只保留輕軌主幹方向。",
+      "requiredSource": [
+        "高雄捷運／輕軌官方資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "hubId": "hub-sizihwan",
+    "hubName": "西子灣站",
+    "hubType": "mrt",
+    "relatedZones": [
+      "sizihwan-gushan-cijin"
+    ],
+    "recoveryDirection": "回到西子灣站後，優先往鹽埕、美麗島或高雄車站方向收斂。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "hubId": "hub-gushan-ferry",
+    "hubName": "鼓山輪渡站",
+    "hubType": "ferry-terminal",
+    "relatedZones": [
+      "sizihwan-gushan-cijin"
+    ],
+    "recoveryDirection": "若人在旗津，先往鼓山輪渡站方向回收，再接西子灣、鹽埕或美麗島方向。",
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "渡輪船班",
+        "渡輪班距",
+        "渡輪末班",
+        "即時營運狀態"
+      ],
+      "reason": "渡輪可能受天候、現場調度與公告影響，不得寫死。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  }
+]

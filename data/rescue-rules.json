@@ -1,0 +1,126 @@
+[
+  {
+    "ruleId": "rule-rain-harbor-ferry",
+    "scenario": "天氣備援",
+    "triggerCondition": "使用者所在或目標旅遊圈包含港邊、海邊或渡輪，且天氣變差、下雨或風大。",
+    "requiredUserQuestion": [
+      "你現在是否已經在旗津或鼓山渡輪附近？",
+      "你是否一定要繼續去海邊或搭渡輪？",
+      "你是否需要回住宿區或車站？"
+    ],
+    "priorityLogic": [
+      "先判斷是否需要回收",
+      "若人在旗津，優先往鼓山渡輪方向回收",
+      "若尚未進旗津，優先改走鹽埕／駁二或市區室內方向",
+      "不要把雨天海邊包裝成順路推薦"
+    ],
+    "conservativeReminder": "雨天或風大時，不建議硬走旗津、西子灣海邊或渡輪行程。渡輪與船班可能受天候、現場調度與公告影響，請以高雄市輪船官方公告與現場資訊為準。",
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "渡輪即時營運狀態",
+        "渡輪停航公告",
+        "渡輪末班"
+      ],
+      "reason": "第一版不接即時資料，不能判斷現在是否有船或是否趕得上。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "ruleId": "rule-late-time-recovery",
+    "scenario": "時間備援",
+    "triggerCondition": "使用者時間晚、接近回程、需要回住宿或不確定是否還能接下一個圈。",
+    "requiredUserQuestion": [
+      "你今晚住哪一區？",
+      "你是否一定要回高雄車站或左營？",
+      "你還想繼續玩，還是想收回行程？"
+    ],
+    "priorityLogic": [
+      "先判斷安全回收方向",
+      "優先回主要交通主幹",
+      "只提供順路或附近短線",
+      "不建議再跨到更遠旅遊圈"
+    ],
+    "conservativeReminder": "時間晚時，先回到捷運、台鐵、渡輪或主要交通主幹，再判斷住宿與回程，不要再硬接遠的景點。",
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "末班資訊",
+        "班距",
+        "是否一定趕得上"
+      ],
+      "reason": "第一版不顯示末班、不承諾一定趕得上。",
+      "requiredSource": [
+        "官方交通資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "ruleId": "rule-luggage-or-fatigue",
+    "scenario": "體力備援",
+    "triggerCondition": "使用者拖行李、帶長輩小孩、體力下降或不想再走太多路。",
+    "requiredUserQuestion": [
+      "你現在有沒有大行李？",
+      "同行者是否有長輩或小孩？",
+      "你想休息、吃飯，還是只想回住宿區？"
+    ],
+    "priorityLogic": [
+      "優先回到交通主幹或住宿區",
+      "保留市區、商圈或短線",
+      "不建議進旗津或長時間港邊步行",
+      "不建議跨到更遠旅遊圈"
+    ],
+    "conservativeReminder": "拖大行李、帶長輩小孩或體力下降時，不建議硬走旗津、海邊或多段轉乘。先收回交通主幹，再安排附近吃飯或休息。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "ruleId": "rule-target-zone-detour-check",
+    "scenario": "接續判斷",
+    "triggerCondition": "使用者已在一個旅遊圈，臨時想接另一個旅遊圈。",
+    "requiredUserQuestion": [
+      "你現在在哪一區？",
+      "你想去的下一區是哪裡？",
+      "你剩下多少時間？",
+      "你是否願意接受較繞或改走替代方向？"
+    ],
+    "priorityLogic": [
+      "用 currentZone 與 targetZone 查 zone-connections",
+      "若 recommendedLevel 是 nearby-safe，可提供順路建議",
+      "若 recommendedLevel 是 possible-detour，必須提示較繞原因與替代方向",
+      "若 recommendedLevel 是 not-recommended，先提供安全回收方向"
+    ],
+    "conservativeReminder": "臨時跳點時，先判斷目前旅遊圈到目標旅遊圈是否順路。若較繞或不建議，不要硬排，先看替代方向與安全回收點。",
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  }
+]

@@ -1,0 +1,201 @@
+[
+  {
+    "connectionId": "formosa-kaohsiung-station-to-yancheng-pier2-kmc",
+    "fromZoneId": "formosa-kaohsiung-station",
+    "toZoneId": "yancheng-pier2-kmc",
+    "connectionType": "mrt-mainline",
+    "mainTransferHubs": [
+      "hub-formosa-boulevard",
+      "hub-yanchengpu"
+    ],
+    "recommendedLevel": "nearby-safe",
+    "reason": "市區主幹接港邊短線，適合從市區往鹽埕、駁二或高流延伸。",
+    "warning": "熱季中午不要把港邊戶外排太久。",
+    "fallbackZoneIds": [
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "yancheng-pier2-kmc-to-formosa-kaohsiung-station",
+    "fromZoneId": "yancheng-pier2-kmc",
+    "toZoneId": "formosa-kaohsiung-station",
+    "connectionType": "mrt-mainline",
+    "mainTransferHubs": [
+      "hub-yanchengpu",
+      "hub-formosa-boulevard"
+    ],
+    "recommendedLevel": "nearby-safe",
+    "reason": "港邊回市區主幹清楚，適合收回住宿、車站或市區吃飯。",
+    "warning": "若時間晚或下雨，優先回市區，不要再硬接海邊。",
+    "fallbackZoneIds": [
+      "yancheng-pier2-kmc"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "yancheng-pier2-kmc-to-sizihwan-gushan-cijin",
+    "fromZoneId": "yancheng-pier2-kmc",
+    "toZoneId": "sizihwan-gushan-cijin",
+    "connectionType": "harbor-transfer",
+    "mainTransferHubs": [
+      "hub-yanchengpu",
+      "hub-sizihwan",
+      "hub-gushan-ferry"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "港邊可接西子灣、鼓山或旗津，但會增加步行、轉乘或渡輪變數。",
+    "warning": "雨天、風大、熱季中午、拖行李或時間晚時，不建議硬接旗津。",
+    "fallbackZoneIds": [
+      "yancheng-pier2-kmc",
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "鼓山／旗津渡輪船班",
+        "鼓山／旗津渡輪班距",
+        "鼓山／旗津渡輪末班",
+        "渡輪即時營運狀態"
+      ],
+      "reason": "若目標包含旗津，渡輪資訊必須以官方公告與現場資訊為準。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "sizihwan-gushan-cijin-to-yancheng-pier2-kmc",
+    "fromZoneId": "sizihwan-gushan-cijin",
+    "toZoneId": "yancheng-pier2-kmc",
+    "connectionType": "harbor-recovery",
+    "mainTransferHubs": [
+      "hub-gushan-ferry",
+      "hub-sizihwan",
+      "hub-yanchengpu"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "從西子灣、鼓山或旗津可收回鹽埕與駁二，但若人在旗津需先處理渡輪回收。",
+    "warning": "人在旗津時不要承諾一定有船或一定趕得上；先看官方公告與現場資訊。",
+    "fallbackZoneIds": [
+      "sizihwan-gushan-cijin",
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗津回鼓山渡輪船班",
+        "旗津回鼓山渡輪班距",
+        "旗津回鼓山渡輪末班",
+        "停航或營運異動"
+      ],
+      "reason": "旗津回收高度依賴渡輪與現場公告，第一版只能給方向。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "formosa-kaohsiung-station-to-sizihwan-gushan-cijin",
+    "fromZoneId": "formosa-kaohsiung-station",
+    "toZoneId": "sizihwan-gushan-cijin",
+    "connectionType": "mrt-harbor-ferry",
+    "mainTransferHubs": [
+      "hub-formosa-boulevard",
+      "hub-sizihwan",
+      "hub-gushan-ferry"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "市區可接西子灣或鼓山，但若延伸到旗津會增加渡輪、天候與回程變數。",
+    "warning": "雨天、風大、熱季中午或拖行李時，優先改走鹽埕、駁二或市區室內。",
+    "fallbackZoneIds": [
+      "yancheng-pier2-kmc",
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "鼓山／旗津渡輪船班",
+        "鼓山／旗津渡輪班距",
+        "鼓山／旗津渡輪末班"
+      ],
+      "reason": "只要目標包含旗津，渡輪細節都不可寫死。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  },
+  {
+    "connectionId": "sizihwan-gushan-cijin-to-formosa-kaohsiung-station",
+    "fromZoneId": "sizihwan-gushan-cijin",
+    "toZoneId": "formosa-kaohsiung-station",
+    "connectionType": "harbor-recovery",
+    "mainTransferHubs": [
+      "hub-gushan-ferry",
+      "hub-sizihwan",
+      "hub-formosa-boulevard"
+    ],
+    "recommendedLevel": "possible-detour",
+    "reason": "可回市區主幹，但如果人在旗津，需先回鼓山或西子灣方向收斂。",
+    "warning": "時間晚、雨天、風大或拖行李時，先回收，不要再補港邊或海邊景點。",
+    "fallbackZoneIds": [
+      "yancheng-pier2-kmc",
+      "formosa-kaohsiung-station"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "旗津回鼓山渡輪船班",
+        "旗津回鼓山渡輪班距",
+        "旗津回鼓山渡輪末班",
+        "停航或營運異動"
+      ],
+      "reason": "旗津回市區需先處理渡輪與官方公告。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  }
+]

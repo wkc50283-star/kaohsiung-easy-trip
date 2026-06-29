@@ -1,0 +1,129 @@
+[
+  {
+    "zoneId": "formosa-kaohsiung-station",
+    "zoneName": "美麗島／高雄車站圈",
+    "zoneType": "urban-core",
+    "safeRecoveryHubs": [
+      "hub-formosa-boulevard",
+      "hub-kaohsiung-station"
+    ],
+    "nearbySafeDirections": [
+      "美麗島站周邊",
+      "高雄車站周邊",
+      "中央公園／新堀江方向"
+    ],
+    "possibleButDetourDirections": [
+      "鹽埕／駁二／高流圈",
+      "西子灣／鼓山／旗津圈"
+    ],
+    "notRecommendedDirections": [
+      "時間晚或拖行李時硬接旗津",
+      "雨天硬走海邊或渡輪行程"
+    ],
+    "riskTags": [
+      "urban-core",
+      "transfer-mainline",
+      "luggage-friendly"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "zoneId": "yancheng-pier2-kmc",
+    "zoneName": "鹽埕／駁二／高流圈",
+    "zoneType": "harbor",
+    "safeRecoveryHubs": [
+      "hub-yanchengpu",
+      "hub-pier2-light-rail"
+    ],
+    "nearbySafeDirections": [
+      "鹽埕周邊",
+      "駁二周邊",
+      "高流與港邊短線"
+    ],
+    "possibleButDetourDirections": [
+      "美麗島／高雄車站圈",
+      "西子灣／鼓山／旗津圈"
+    ],
+    "notRecommendedDirections": [
+      "熱季中午長時間走港邊",
+      "雨天硬接旗津或西子灣海邊"
+    ],
+    "riskTags": [
+      "harbor",
+      "outdoor-exposure",
+      "heat",
+      "rain"
+    ],
+    "needsReview": {
+      "hasNeedsReview": false,
+      "items": [],
+      "reason": "",
+      "requiredSource": [],
+      "blockingLevel": ""
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md"
+    ]
+  },
+  {
+    "zoneId": "sizihwan-gushan-cijin",
+    "zoneName": "西子灣／鼓山／旗津圈",
+    "zoneType": "harbor-ferry",
+    "safeRecoveryHubs": [
+      "hub-sizihwan",
+      "hub-gushan-ferry"
+    ],
+    "nearbySafeDirections": [
+      "西子灣周邊",
+      "鼓山渡輪前後短線",
+      "天氣穩定時的旗津短線"
+    ],
+    "possibleButDetourDirections": [
+      "鹽埕／駁二／高流圈",
+      "美麗島／高雄車站圈"
+    ],
+    "notRecommendedDirections": [
+      "雨天硬走旗津海邊",
+      "風大時硬排渡輪",
+      "拖大行李進旗津",
+      "時間晚還繼續往旗津延伸"
+    ],
+    "riskTags": [
+      "harbor",
+      "ferry",
+      "rain",
+      "wind",
+      "heat",
+      "outdoor-exposure",
+      "luggage"
+    ],
+    "needsReview": {
+      "hasNeedsReview": true,
+      "items": [
+        "鼓山／旗津渡輪船班",
+        "鼓山／旗津渡輪班距",
+        "鼓山／旗津渡輪末班",
+        "渡輪即時營運狀態"
+      ],
+      "reason": "渡輪與船班可能受天候、現場調度與公告影響，第一版不得寫死。",
+      "requiredSource": [
+        "高雄市輪船官方公告",
+        "高雄市輪船現場資訊"
+      ],
+      "blockingLevel": "blocks-confirmed-transport-detail"
+    },
+    "sourceDocs": [
+      "rescue-mode-data-model-draft-v0.1.md",
+      "rescue-mode-p0-cijin-ferry-review-v0.1.md"
+    ]
+  }
+]
